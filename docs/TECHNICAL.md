@@ -13,23 +13,31 @@
 | LLM | Llama 3.1 8B (via Ollama) | FREE |
 | TTS | Coqui TTS | FREE |
 | Video | FFmpeg + python-sc2 | FREE |
+| Platform | Native Windows (no Docker) | FREE |
 | Hardware | RTX 3060+ 12GB VRAM (already owned) | $0 |
 | **Total** | | **$0/month** ✅ |
 
 ### Hardware Requirements
-- GPU: RTX 3060+ (12GB VRAM minimum)
-- RAM: 32GB (16GB system + 16GB models)
-- Storage: 1TB SSD
-- CPU: 8+ cores recommended
+- **GPU:** RTX 3060+ (12GB VRAM minimum)
+- **RAM:** 32GB (16GB system + 16GB for models)
+- **Storage:** 1TB SSD
+- **CPU:** 8+ cores recommended
+- **OS:** Windows 10/11 (SC2 must be installed)
 
 ### Performance
-- Processing time: 34 min for 20-min replay
+- Processing time: ~34 min for 20-min replay
 - Quality: 77% of paid APIs (7.5/10 commentary, 7/10 voice)
 - Trade-off: Acceptable quality at zero cost
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Architecture (Windows Native)
+
+### Why Windows Native?
+1. **Replay Support:** Windows SC2 client supports replay playback (Linux headless does not)
+2. **Simplicity:** No Docker overhead, direct Python execution
+3. **GPU Access:** Direct NVIDIA driver access, no virtualization
+4. **Development:** Faster iteration, easier debugging
 
 ### Pipeline (7 Stages)
 ```
@@ -43,57 +51,86 @@
    ↓
 5. Audio Synthesis (Coqui TTS)
    ↓
-6. Video Recording (SC2 + FFmpeg)
+6. Video Recording (SC2 + FFmpeg/OBS)
    ↓
 7. YouTube Upload
 ```
 
 ### Tech Stack
-- **Language**: Python 3.11+
-- **Replay**: sc2reader (parsing), python-sc2 (control)
-- **LLM**: Llama 3.1 8B via Ollama (local)
-- **TTS**: Coqui TTS (local, GPU-accelerated)
-- **Video**: FFmpeg (H.264, 1080p60)
-- **Container**: Docker + NVIDIA CUDA
-- **Upload**: YouTube Data API v3
+- **Language:** Python 3.11+
+- **Replay Parsing:** sc2reader
+- **SC2 Control:** python-sc2 (burnysc2 fork)
+- **LLM:** Llama 3.1 8B via Ollama (local)
+- **TTS:** Coqui TTS (local, GPU-accelerated)
+- **Screen Capture:** FFmpeg or OBS Studio
+- **Video Encoding:** FFmpeg (H.264, 1080p60)
+- **Upload:** YouTube Data API v3
 
 ---
 
 ## 🚀 Setup (Zero-Budget)
 
-### 1. Install Ollama (Local LLM)
+### 1. Prerequisites
+```powershell
+# Verify SC2 is installed
+Test-Path "C:\Program Files (x86)\StarCraft II\SC2_x64.exe"
+
+# Verify Python 3.11+
+python --version
+
+# Verify NVIDIA GPU
+nvidia-smi
+```
+
+### 2. Install Python Dependencies
+```powershell
+# Install Poetry (if not already installed)
+pip install poetry
+
+# Install project dependencies (creates virtual environment automatically)
+poetry install
+
+# Activate Poetry shell (optional)
+poetry shell
+```
+
+### 3. Install Ollama (Local LLM)
 ```powershell
 # Download from: https://ollama.com
 winget install Ollama.Ollama
 
 # Pull Llama 3.1 8B quantized
 ollama pull llama3.1:8b-q4_K_M
+
+# Test
+ollama run llama3.1:8b-q4_K_M "Hello"
 ```
 
-### 2. Install Docker Desktop
+### 4. Install FFmpeg
 ```powershell
-# Download from: https://docker.com
-# Enable WSL 2 backend
-# Start Docker Desktop
+# Download from: https://ffmpeg.org/download.html
+# Or use winget
+winget install Gyan.FFmpeg
+
+# Add to PATH, then test
+ffmpeg -version
 ```
 
-### 3. Build Project
+### 5. Install Coqui TTS (Sprint 3.2)
 ```powershell
-git clone https://github.com/prevosta/sc2cast.git
-cd sc2cast
-docker compose build  # Takes 10-15 min first time
+poetry add TTS
+
+# Test GPU acceleration
+poetry run python -c "import torch; print(torch.cuda.is_available())"
 ```
 
-### 4. Test
+### 6. Test Setup
 ```powershell
-# Test GPU
-docker compose run sc2cast nvidia-smi
+# Parse demo replay (Sprint 1.2)
+poetry run python src/parse_replay.py
 
-# Test Python
-docker compose run sc2cast python --version
-
-# Process demo replay (Sprint 1.2+)
-docker compose run sc2cast python -m src.main --replay replays/demo/*.SC2Replay
+# Test SC2 connection (Sprint 1.4)
+poetry run python tests/test_sc2.py
 ```
 
 ---
@@ -105,7 +142,7 @@ docker compose run sc2cast python -m src.main --replay replays/demo/*.SC2Replay
 **Extract basic metadata from SC2 replay files:**
 
 ```powershell
-docker compose run --rm sc2cast python3 src/parse_replay.py
+poetry run python src/parse_replay.py
 ```
 
 **Output Format (JSON):**
@@ -118,23 +155,17 @@ docker compose run --rm sc2cast python3 src/parse_replay.py
   "players": [
     {
       "name": "changeling",
-      "race": "Unknown",
-      "result": "Unknown"
+      "race": "Zerg",
+      "result": "Win"
     },
     {
       "name": "Mike",
-      "race": "Unknown",
-      "result": "Unknown"
+      "race": "Terran",
+      "result": "Loss"
     }
   ]
 }
 ```
-
-**Notes:**
-- Parses replays from `replays/demo/` folder
-- Handles AI Arena replays (empty cache_handles)
-- Race/result need game events (future sprint)
-- Exit code: 0=success, 1=error
 
 ### Event Extraction (Sprint 1.3)
 
@@ -142,13 +173,13 @@ docker compose run --rm sc2cast python3 src/parse_replay.py
 
 ```powershell
 # All events
-docker compose run --rm sc2cast python3 src/parse_replay.py --events
+poetry run python src/parse_replay.py --events
 
 # Key moments only (high priority)
-docker compose run --rm sc2cast python3 src/parse_replay.py --events --key-moments
+poetry run python src/parse_replay.py --events --key-moments
 
 # Filter by player
-docker compose run --rm sc2cast python3 src/parse_replay.py --events --player Mike
+poetry run python src/parse_replay.py --events --player Mike
 ```
 
 **Event Types:**
@@ -163,26 +194,60 @@ docker compose run --rm sc2cast python3 src/parse_replay.py --events --player Mi
 - `medium` - Noteworthy events (buildings, combat)
 - `low` - Minor events (workers, small engagements)
 
-**Event Schema:**
-```json
-{
-  "events": [
-    {
-      "time": 245,
-      "type": "battle",
-      "priority": "high",
-      "player": null,
-      "details": "Major engagement - 15 units lost"
-    }
-  ],
-  "key_moments": [12, 210, 245, 455, 512]
-}
+### SC2 Replay Control (Sprint 1.4 / 2.1)
+
+**Open and control replay playback:**
+
+```python
+from sc2.main import run_replay
+from sc2.observer_ai import ObserverAI
+
+class ReplayObserver(ObserverAI):
+    async def on_start(self):
+        print(f"Replay started: {self.game_info.map_name}")
+    
+    async def on_step(self, iteration: int):
+        # Control replay, move camera, etc.
+        if iteration % 100 == 0:
+            game_time = iteration / 22.4
+            print(f"Game time: {game_time:.1f}s")
+
+# Run replay
+run_replay(
+    ReplayObserver(),
+    replay_path="replays/demo/game.SC2Replay",
+    realtime=True
+)
 ```
 
-**Notes:**
-- `key_moments` are timestamps (seconds) of high-priority events
-- Used by camera director to focus on important action
-- Player can be `null` for multi-player events (battles)
+### Screen Capture with FFmpeg (Sprint 2.2)
+
+**Capture SC2 window:**
+
+```python
+import subprocess
+import time
+
+def capture_screen(output_file, duration=10):
+    """Capture SC2 window with FFmpeg"""
+    
+    # Start recording
+    process = subprocess.Popen([
+        'ffmpeg',
+        '-f', 'gdigrab',  # Windows screen capture
+        '-framerate', '60',
+        '-i', 'title=StarCraft II',  # SC2 window title
+        '-t', str(duration),  # Duration in seconds
+        '-c:v', 'libx264',  # H.264 codec
+        '-preset', 'fast',
+        '-crf', '23',  # Quality (lower = better)
+        output_file
+    ])
+    
+    # Wait for completion
+    process.wait()
+    return output_file
+```
 
 ---
 
@@ -200,9 +265,17 @@ class LocalLLM:
     def generate(self, prompt, max_tokens=500):
         response = requests.post(
             f"{self.url}/api/generate",
-            json={"model": self.model, "prompt": prompt, "max_tokens": max_tokens}
+            json={
+                "model": self.model, 
+                "prompt": prompt, 
+                "max_tokens": max_tokens
+            }
         )
         return response.json()["response"]
+
+# Usage
+llm = LocalLLM()
+commentary = llm.generate("Describe this battle: 20 marines vs 15 zerglings")
 ```
 
 ### Local TTS Engine
@@ -211,25 +284,21 @@ from TTS.api import TTS
 
 class LocalTTS:
     def __init__(self):
+        # Load model to GPU
         self.tts = TTS("tts_models/en/vctk/vits").to("cuda")
     
-    def synthesize(self, text, speaker="p326"):
-        return self.tts.tts(text=text, speaker=speaker)
-```
+    def synthesize(self, text, output_file, speaker="p326"):
+        """Generate speech from text"""
+        self.tts.tts_to_file(
+            text=text,
+            file_path=output_file,
+            speaker=speaker
+        )
+        return output_file
 
-### Replay Parser
-```python
-import sc2reader
-
-class ReplayAnalyzer:
-    def parse(self, replay_path):
-        replay = sc2reader.load_replay(replay_path)
-        return {
-            "duration": replay.game_length.total_seconds(),
-            "map": replay.map_name,
-            "players": [p.name for p in replay.players],
-            "winner": next(p.name for p in replay.players if p.result == "Win")
-        }
+# Usage
+tts = LocalTTS()
+tts.synthesize("The game begins!", "output/commentary.wav")
 ```
 
 ---
@@ -250,14 +319,27 @@ PRIORITIES = {
 def calculate_priority(event):
     base = PRIORITIES[event.type]
     if event.supply_lost > 50:
-        base += 2
+        base += 2  # Bonus for large engagements
     return min(base, 10)
 ```
 
-### Conflict Resolution
-- Simultaneous events: Show highest priority
-- Multiple high-priority: Use split-screen
-- Boring periods: Show macro overview
+### Camera Positioning
+```python
+async def move_camera_to_event(bot, event):
+    """Move camera to focus on game event"""
+    
+    # Get event location
+    x, y = event.location
+    
+    # Center camera
+    await bot.client.move_camera(x, y)
+    
+    # Adjust zoom based on event type
+    if event.type == 'major_battle':
+        await bot.client.move_camera(x, y, distance=15)
+    elif event.type == 'expansion':
+        await bot.client.move_camera(x, y, distance=20)
+```
 
 ---
 
@@ -273,29 +355,46 @@ GAME CONTEXT (verified facts only):
 - Event: {event.description}
 - Supply: {game_state.supply[0]} vs {game_state.supply[1]}
 - Workers: {game_state.workers[0]} vs {game_state.workers[1]}
+- Army: {game_state.army_value[0]} vs {game_state.army_value[1]}
 
-Generate 2-3 sentences of commentary.
-Be factual, specific, and engaging.
+Generate 2-3 sentences of engaging commentary.
+Be factual, specific, and avoid speculation.
 
 Output JSON: {{"text": "...", "emotion": "neutral|excited|tense"}}
 """
 ```
 
-### Validation
-- Check facts against game state
-- Reject hallucinations
-- Limit length (3 sentences max)
+### Validation System
+```python
+def validate_commentary(commentary, game_state):
+    """Check commentary against game state"""
+    
+    # Extract claims from commentary
+    claims = extract_claims(commentary)
+    
+    # Verify each claim
+    for claim in claims:
+        if not verify_claim(claim, game_state):
+            return False, f"Invalid claim: {claim}"
+    
+    return True, "Commentary validated"
+```
 
 ---
 
 ## 🔧 Configuration
 
-### config/default.yaml
+### config/config.yaml
 ```yaml
+sc2:
+  install_path: "C:/Program Files (x86)/StarCraft II"
+  replay_folder: "./replays"
+
 llm:
   provider: ollama
   model: llama3.1:8b-q4_K_M
   base_url: http://localhost:11434
+  temperature: 0.7
 
 tts:
   provider: coqui
@@ -307,42 +406,77 @@ video:
   resolution: [1920, 1080]
   fps: 60
   codec: libx264
-  preset: medium
+  preset: fast
+  crf: 23
+
+capture:
+  method: ffmpeg  # or 'obs'
+  window_title: "StarCraft II"
 
 youtube:
   credentials: ./credentials/youtube_token.json
   auto_upload: false
+  channel_id: ""
 ```
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Docker Build Fails
-- Ensure Docker Desktop is running
-- Check GPU support: `nvidia-smi`
-- Retry: `docker compose build --no-cache`
+### SC2 Not Detected
+```powershell
+# Check installation
+Get-ChildItem "C:\Program Files (x86)\StarCraft II\SC2_x64.exe"
+
+# Verify environment
+python -c "from sc2.paths import Paths; print(Paths().BASE)"
+```
 
 ### Ollama Not Working
-- Check service: `ollama list`
-- Restart: `ollama serve`
-- Pull model again: `ollama pull llama3.1:8b-q4_K_M`
+```powershell
+# Check service status
+ollama list
 
-### Coqui TTS Slow
-- Verify GPU: `torch.cuda.is_available()`
-- Use smaller model if needed
-- Check VRAM usage: `nvidia-smi`
+# Restart service
+Stop-Process -Name ollama -Force
+ollama serve
+
+# Re-pull model
+ollama pull llama3.1:8b-q4_K_M
+```
+
+### GPU Not Detected
+```powershell
+# Check CUDA
+nvidia-smi
+
+# Check PyTorch
+poetry run python -c "import torch; print(torch.cuda.is_available())"
+
+# Reinstall PyTorch with CUDA
+poetry add torch torchvision torchaudio --source https://download.pytorch.org/whl/cu118
+```
+
+### FFmpeg Capture Issues
+```powershell
+# Test capture
+ffmpeg -f gdigrab -i desktop -t 5 test.mp4
+
+# List capture devices
+ffmpeg -list_devices true -f dshow -i dummy
+```
 
 ---
 
 ## 📚 Resources
 
-- Ollama: https://ollama.com
-- Coqui TTS: https://github.com/coqui-ai/TTS
-- sc2reader: https://sc2reader.readthedocs.io
-- python-sc2: https://burnysc2.github.io/python-sc2
-- FFmpeg: https://ffmpeg.org
-- YouTube API: https://developers.google.com/youtube/v3
+- **Ollama:** https://ollama.com
+- **Coqui TTS:** https://github.com/coqui-ai/TTS
+- **sc2reader:** https://sc2reader.readthedocs.io
+- **python-sc2:** https://burnysc2.github.io/python-sc2
+- **FFmpeg:** https://ffmpeg.org
+- **OBS Studio:** https://obsproject.com
+- **YouTube API:** https://developers.google.com/youtube/v3
 
 ---
 

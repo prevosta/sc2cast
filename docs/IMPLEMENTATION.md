@@ -7,100 +7,103 @@
 ## 🎯 Current Status
 
 **Phase:** Phase 1 - Proof of Concept  
-**Sprint:** 1.4 In Progress ⏳ (Video Recording PoC)  
+**Sprint:** 1.2 Starting (Basic Replay Processing)  
 **Started:** November 5, 2025  
-**Progress:** 3/4 Phase 1 sprints complete (75%)
+**Progress:** 1/4 Phase 1 sprints complete (25%)
 
 ### Completed
-- ✅ Sprint 1.1: Docker Environment Setup (GPU + SC2 working)
-- ✅ Sprint 1.2: Replay Parser (metadata extraction)
-- ✅ Sprint 1.3: Event Extraction (key moments identified)
+- ✅ Sprint 1.1: Windows environment setup (Python 3.12.7, Poetry 1.8.5, SC2 verified)
 
-### In Progress
-- ⏳ Sprint 1.4: Video Recording PoC - **HIGHEST TECHNICAL RISK**
-  - Goal: Prove SC2 + Docker + FFmpeg → MP4 video file
-  - If this fails, entire project needs pivot
+### Architecture Decision
+- ❌ **REMOVED:** Docker + Linux containers (replay playback blocked by headless client)
+- ✅ **NEW:** Native Windows execution (Windows SC2 client supports replays!)
+
+### Why Windows Native?
+1. **Replay Support:** Windows SC2 client can play replays (Linux headless cannot)
+2. **Simplicity:** No Docker complexity, direct Python scripts
+3. **GPU Access:** Direct NVIDIA driver access
+4. **Development Speed:** Faster iteration, easier debugging
 
 ### Next
-- Phase 2: Video Foundation (if PoC succeeds)
+- Sprint 1.2: Basic Replay Processing (parse demo replay, extract metadata)
 
 ---
 
 ## 📅 Implementation Timeline (20 Weeks)
 
-### Phase 1: Proof of Concept (Weeks 1-2) ⏳ 75% Complete
-**Goal:** Prove Docker + SC2 + video generation works
+### Phase 1: Proof of Concept (Weeks 1-2)
+**Goal:** Prove Windows + SC2 + video generation works
 
-**Sprint 1.1:** Docker Environment ✅ COMPLETE
-- Docker + SC2 + GPU support
-- Deliverable: Container runs, GPU accessible
-- **Completed:** Nov 5, 2025
+**Sprint 1.1:** Windows Environment Setup (Week 1)
+- Install Python 3.11+ on Windows
+- Install Poetry: `pip install poetry`
+- Install dependencies: `poetry install`
+- Install FFmpeg for Windows
+- Verify SC2 installation path
+- Deliverable: Can run Python scripts, SC2 detected
 
-**Sprint 1.2:** Basic Replay Processing ✅ COMPLETE
-- Parse demo replay file
-- Extract basic info (players, duration, map)
+**Sprint 1.2:** Basic Replay Processing (Week 1)
+- Parse demo replay file with sc2reader
+- Extract metadata (players, duration, map)
+- Test with AIArena replay format
 - Deliverable: JSON output of replay data
-- **Completed:** Nov 5, 2025
 
-**Sprint 1.3:** Event Extraction ✅ COMPLETE
+**Sprint 1.3:** Event Extraction (Week 1-2)
 - Extract game events (builds, battles, expansions)
 - Categorize by priority (high/medium/low)
 - Identify key moments for camera
 - Deliverable: Events timeline with filtering
-- **Completed:** Nov 5, 2025
 
-**Sprint 1.4:** Video Recording PoC ⏳ IN PROGRESS
-- Install video dependencies (Xvfb, FFmpeg, python-sc2)
-- Launch SC2 headless, open replay programmatically
-- Record 10-second video clip with FFmpeg
-- Deliverable: MP4 file in output/ directory
-- **Risk Level:** 🔴 HIGHEST - This is make-or-break for the project
-- **Started:** Nov 5, 2025
-
-**Sprint 1.4:** Video PoC (Week 2) ⏳ NEXT
-- Record short video clip from replay
-- Basic FFmpeg encoding
-- Deliverable: First video file (no commentary)
+**Sprint 1.4:** Video Recording PoC (Week 2) **CRITICAL**
+- Load replay with python-sc2 + Windows SC2 client
+- Control replay playback programmatically
+- Capture screen with FFmpeg or screen recording
+- Deliverable: 10-second MP4 file from replay
+- **Risk:** HIGH - If replays still don't work, need alternative approach
 
 ### Phase 2: Video Foundation (Weeks 3-4)
-**Goal:** Record and encode video from replay
+**Goal:** Record full-length videos from replays
 
-**Sprint 2.1:** SC2 Control
-- Control SC2 client via python-sc2
-- Basic camera movement
-- Deliverable: Can watch replay programmatically
+**Sprint 2.1:** SC2 Replay Control
+- python-sc2 observer mode
+- Camera positioning and movement
+- Replay speed control
+- Deliverable: Can navigate replay programmatically
 
-**Sprint 2.2:** Video Recording
-- Capture frames
-- Encode with FFmpeg
-- Deliverable: First video file (no commentary, no overlays)
+**Sprint 2.2:** Screen Recording
+- FFmpeg screen capture setup
+- Audio capture (game sounds)
+- 1080p60 encoding settings
+- Deliverable: Full-length replay video (no commentary)
 
 ### Phase 3: Local AI Setup (Weeks 5-6)
-**Goal:** Get Llama + Coqui working
+**Goal:** Get Llama + Coqui working on Windows
 
-**Sprint 3.1:** Ollama Integration
-- Install Ollama
-- Pull Llama 3.1 8B
-- Test basic generation
-- Deliverable: Can generate text locally
+**Sprint 3.1:** Ollama on Windows
+- Install Ollama for Windows
+- Pull Llama 3.1 8B model
+- Test basic text generation
+- Deliverable: Can generate commentary text locally
 
-**Sprint 3.2:** Coqui TTS Integration
+**Sprint 3.2:** Coqui TTS on Windows
 - Install Coqui TTS
-- Configure GPU acceleration
+- Configure NVIDIA GPU acceleration
 - Test speech synthesis
-- Deliverable: Can generate speech locally
+- Deliverable: Can generate speech from text
 
 ### Phase 4: Event Detection (Weeks 7-8)
 **Goal:** Identify key moments in replays
 
 **Sprint 4.1:** Event Parser
-- Parse replay events (battles, expansions, tech)
-- Classify event types
-- Deliverable: Timeline of key events
+- Parse replay events with sc2reader
+- Classify event types and importance
+- Build event timeline
+- Deliverable: Structured event data
 
-**Sprint 4.2:** Camera Director
+**Sprint 4.2:** Camera Director AI
 - Priority scoring algorithm
 - Camera path generation
+- Conflict resolution (multiple events)
 - Deliverable: Automated camera script
 
 ### Phase 5: AI Commentary (Weeks 9-11)
@@ -109,104 +112,120 @@
 **Sprint 5.1:** Commentary Generator
 - Prompt engineering for Llama
 - Game state integration
+- Fact validation system
 - Deliverable: Text commentary for key moments
 
-**Sprint 5.2:** Validation System
-- Fact-checking against game state
-- Hallucination detection
-- Deliverable: Validated commentary
-
-**Sprint 5.3:** Audio Synthesis
-- Convert text to speech (Coqui)
+**Sprint 5.2:** Audio Synthesis
+- Convert text to speech with Coqui
 - Sync with video timeline
-- Deliverable: Audio track
+- Audio mixing and normalization
+- Deliverable: Commentary audio track
+
+**Sprint 5.3:** Quality Validation
+- Automated fact-checking
+- Hallucination detection
+- Manual review workflow
+- Deliverable: Quality control system
 
 ### Phase 6: Video Production (Weeks 12-14)
-**Goal:** Complete video with commentary
+**Goal:** Complete video with commentary and overlays
 
 **Sprint 6.1:** Overlay System
-- HUD elements (supply, resources)
+- HUD elements (supply, resources, upgrades)
 - Player info bars
-- Deliverable: Overlays rendered
+- Minimap overlay
+- Deliverable: Rendered overlays
 
-**Sprint 6.2:** Integration
+**Sprint 6.2:** Video Assembly
 - Combine video + audio + overlays
-- Final encoding
+- Final encoding (H.264, 1080p60)
+- Thumbnail generation
 - Deliverable: Complete cast video
 
 **Sprint 6.3:** Quality Control
-- Automated checks
+- Automated validation checks
 - Manual review process
-- Deliverable: QA system
+- Error reporting
+- Deliverable: QA pipeline
 
 ### Phase 7: YouTube Integration (Weeks 15-16)
-**Goal:** Automated upload
+**Goal:** Automated upload pipeline
 
-**Sprint 7.1:** API Integration
-- OAuth authentication
+**Sprint 7.1:** YouTube API
+- OAuth authentication setup
 - Upload functionality
-- Deliverable: Can upload videos
+- Playlist management
+- Deliverable: Can upload videos programmatically
 
 **Sprint 7.2:** Metadata Generation
-- Titles, descriptions, tags
-- Thumbnails
-- Deliverable: Fully automated pipeline
+- Title generation (AI-assisted)
+- Description and tags
+- Thumbnail creation
+- Deliverable: Fully automated publishing
 
 ### Phase 8: Testing (Weeks 17-18)
 **Goal:** Process 50+ diverse replays
 
-**Sprint 8.1:** Testing Suite
-- Unit tests
+**Sprint 8.1:** Test Suite
+- Unit tests for all components
 - Integration tests
-- Deliverable: Test coverage >80%
+- Replay diversity testing
+- Deliverable: >80% test coverage
 
-**Sprint 8.2:** Replay Processing
-- Test with various matchups
-- Different game lengths
-- Deliverable: Success rate >95%
+**Sprint 8.2:** Batch Processing
+- Test various matchups (TvZ, PvP, etc.)
+- Different game lengths (5min - 60min)
+- Edge cases (early GG, disconnects)
+- Deliverable: >95% success rate
 
 ### Phase 9: Optimization (Weeks 19-20)
 **Goal:** Improve speed and quality
 
-**Sprint 9.1:** Performance
-- Parallel processing
+**Sprint 9.1:** Performance Optimization
+- Parallel processing where possible
 - Caching strategies
-- Deliverable: <25 min processing time
+- GPU optimization
+- Deliverable: <25 min processing time for 20-min replay
 
 **Sprint 9.2:** Quality Tuning
 - Commentary improvements
-- Camera refinements
-- Deliverable: User feedback >4/5
+- Camera work refinement
+- Audio quality enhancement
+- Deliverable: User feedback >4/5 stars
 
 ### Phase 10: Production Launch (Week 21)
-**Goal:** Go live
+**Goal:** Go live with automated system
 
-- Final testing
-- Documentation
-- First batch of videos published
-- **Deliverable: Live YouTube channel**
+- Final end-to-end testing
+- Documentation completion
+- First batch upload (10 videos)
+- Channel announcement
+- **Deliverable: Live YouTube channel with automated uploads**
 
 ---
 
 ## 📊 Resource Requirements
 
 ### Hardware (Already Available)
-- GPU: RTX 3060+ 12GB VRAM ✅
-- RAM: 32GB ✅
-- Storage: 1TB SSD ✅
-- CPU: 8+ cores ✅
+- **GPU:** RTX 3060+ 12GB VRAM ✅
+- **RAM:** 32GB ✅
+- **Storage:** 1TB SSD ✅
+- **CPU:** 8+ cores ✅
+- **OS:** Windows 10/11 ✅
 
 ### Software (All Free)
-- Docker Desktop ✅
-- Ollama (Llama 3.1) 
-- Coqui TTS
 - Python 3.11+
+- Poetry (dependency management)
+- StarCraft II (installed)
+- Ollama (Llama 3.1)
+- Coqui TTS
 - FFmpeg
+- OBS Studio (optional for capture)
 
 ### Costs
-- **Operational**: $0/month
-- **Electricity**: ~$20-30/month
-- **Total**: **$0/month** ✅
+- **Operational:** $0/month
+- **Electricity:** ~$20-30/month
+- **Total:** **$0/month** ✅
 
 ---
 
@@ -236,22 +255,24 @@
 
 | Risk | Impact | Mitigation |
 |------|--------|------------|
-| Llama quality too low | High | Test early (Sprint 3.1), can fine-tune |
-| Coqui voice quality poor | Medium | Multiple voice options, can adjust |
+| Windows SC2 replay fails | **CRITICAL** | Test Sprint 1.4 immediately, pivot if needed |
+| Llama quality too low | High | Test early (Sprint 3.1), can fine-tune or use larger model |
+| Coqui voice quality poor | Medium | Multiple voice options, can adjust settings |
 | SC2 crashes | Medium | Checkpoint system, auto-restart |
 | Processing too slow | Low | Optimization in Phase 9 |
+| Screen capture performance | Medium | Test multiple methods (FFmpeg, OBS, Windows Game Bar) |
 
 ---
 
 ## 📝 Milestones
 
-- ✅ **Week 0**: Planning complete
-- ⏳ **Week 2**: PoC video generated
-- **Week 6**: Local AI working
+- ✅ **Week 0**: Planning complete, architecture decided (Windows native)
+- **Week 2**: PoC video generated from replay ← **CRITICAL MILESTONE**
+- **Week 6**: Local AI working (Llama + Coqui)
 - **Week 11**: First AI-commented video
-- **Week 14**: Full pipeline working
-- **Week 18**: Testing complete
-- **Week 21**: Production launch
+- **Week 14**: Full pipeline working end-to-end
+- **Week 18**: Testing complete, 95%+ success rate
+- **Week 21**: Production launch, channel goes live
 
 ---
 

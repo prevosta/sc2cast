@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "sc2cast"
+version = "0.1.0"
+description = "Automated StarCraft II replay commentary and video generation"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{include = "sc2cast", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+sc2reader = "^1.8.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+black = "^24.0.0"
+pytest-asyncio = "^0.23.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

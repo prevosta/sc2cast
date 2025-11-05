@@ -54,9 +54,9 @@
 
 ### Q: Does this work on Windows/Mac/Linux?
 **A:** 
-- **Windows**: Yes (WSL 2 + Docker Desktop)
-- **Linux**: Yes (native Docker)
-- **Mac**: Limited (no NVIDIA GPU support)
+- **Windows**: Yes (native, recommended)
+- **Linux**: No (SC2 headless client doesn't support replay playback)
+- **Mac**: No (no NVIDIA GPU support + no replay support)
 
 ---
 
@@ -154,17 +154,17 @@ Trade-off: 2x quality, infinite cost increase.
 
 ## Troubleshooting
 
-### Q: Docker build fails?
+### Q: SC2 not detected?
 **A:** 
-- Ensure Docker Desktop is running
-- Check: `docker --version`
-- Retry: `docker compose build --no-cache`
+- Check installation path: `C:\Program Files (x86)\StarCraft II\SC2_x64.exe`
+- Verify with Python: `python -c "from sc2.paths import Paths; print(Paths().BASE)"`
+- Reinstall SC2 if needed
 
 ### Q: GPU not detected?
 **A:**
 - Check: `nvidia-smi`
-- Install NVIDIA drivers
-- Enable GPU in Docker settings
+- Install latest NVIDIA drivers
+- Verify PyTorch: `python -c "import torch; print(torch.cuda.is_available())"`
 
 ### Q: Ollama not responding?
 **A:**
@@ -177,6 +177,20 @@ Trade-off: 2x quality, infinite cost increase.
 - Close other GPU applications
 - Use quantized models (q4_K_M)
 - Reduce batch sizes
+
+### Q: FFmpeg capture not working?
+**A:**
+- Test capture: `ffmpeg -f gdigrab -i desktop -t 5 test.mp4`
+- Check window title: `ffmpeg -f gdigrab -i title="StarCraft II" output.mp4`
+- Try OBS Studio as alternative
+
+### Q: Python dependencies fail to install?
+**A:**
+- Ensure Python 3.11+: `python --version`
+- Install Poetry: `pip install poetry`
+- Run: `poetry install`
+- If errors persist, install Visual C++ Build Tools
+- Check Poetry docs: https://python-poetry.org/docs/
 
 ---
 

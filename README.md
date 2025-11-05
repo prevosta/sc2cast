@@ -24,14 +24,24 @@ SC2Cast transforms StarCraft II replays into professional cast videos with **zer
 git clone https://github.com/prevosta/sc2cast.git
 cd sc2cast
 
-# 2. Build Docker container (includes SC2 + CUDA + Python)
-docker compose build
+# 2. Install Poetry (if not already installed)
+pip install poetry
 
-# 3. Run demo (processes replay in replays/demo/)
-docker compose run sc2cast python src/process_replay.py
+# 3. Install project dependencies
+poetry install
+
+# 4. Install Ollama (for local LLM)
+winget install Ollama.Ollama
+ollama pull llama3.1:8b-q4_K_M
+
+# 5. Install FFmpeg
+winget install Gyan.FFmpeg
+
+# 6. Run demo (parse replay metadata)
+poetry run python src/parse_replay.py
 ```
 
-**Output**: Generated video in `output/` folder (1080p60 MP4)
+**Output**: Replay metadata in JSON format (video generation in Sprint 1.4+)
 
 ---
 
@@ -47,10 +57,8 @@ sc2cast/
 ├── src/                   # Source code (Sprint 1.2+)
 ├── tests/                 # Test files (Sprint 2.x+)  
 ├── config/                # Configuration files (Sprint 3.x+)
-├── replays/demo/          # Demo replay files
+├── replays/               # Demo replay files
 ├── output/                # Generated videos (gitignored)
-├── Dockerfile             # SC2 + CUDA + Python environment
-├── docker-compose.yml     # GPU-enabled container config
 └── README.md              # This file
 ```
 
@@ -94,28 +102,31 @@ sc2cast/
 |-----------|-----------|-----|
 | Language | Python 3.11+ | Rich ecosystem, rapid development |
 | Replay Parsing | sc2reader | Fast, pure Python, FREE |
-| Game Control | python-sc2 | Official API, FREE |
+| Game Control | python-sc2 (burnysc2) | Replay support, FREE |
 | Commentary | **Llama 3.1 8B (Ollama)** | Open-source, local GPU inference, FREE |
 | TTS | **Coqui TTS** | Open-source, local synthesis, FREE |
-| Video | FFmpeg | Industry standard, FREE |
-| Container | Docker + CUDA | Reproducibility, GPU support, FREE |
+| Screen Capture | FFmpeg / OBS Studio | Industry standard, FREE |
+| Video Encoding | FFmpeg | H.264, 1080p60, FREE |
+| Platform | **Windows Native** | SC2 replay support, direct GPU access |
 | Upload | YouTube API v3 | Official integration, FREE |
 
-**💰 Total API Costs: $0/month** - Everything runs locally on RTX 3060+ GPU!
+**💰 Total API Costs: $0/month** - Everything runs locally on Windows with RTX 3060+ GPU!
 
 ---
 
 ## 📊 Current Status
 
-**Sprint 1.1**: Docker Environment Setup (In Progress)
-- ✅ Dockerfile created (SC2 + CUDA + Python)
-- ✅ docker-compose.yml created (GPU support)
+**Sprint 1.1**: Windows Native Setup (Starting)
+- ✅ Architecture decision: Windows native (replays work!)
 - ✅ Project structure organized
-- ⏳ Docker build (troubleshooting SC2 download)
-- ⏳ Test GPU access
-- ⏳ Test Python environment
+- ⏳ Install Poetry + dependencies
+- ⏳ Install Ollama + Llama 3.1
+- ⏳ Install FFmpeg
+- ⏳ Verify SC2 installation
 
-**Next Sprint**: Replay parser implementation
+**Next Sprint**: Replay parser implementation (Sprint 1.2)
+
+**Why Windows?** Linux headless SC2 doesn't support replay playback. Windows client does!
 
 See [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) for full 20-week timeline.
 
@@ -127,7 +138,8 @@ See [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) for full 20-week timeline.
 - 95%+ replay processing success rate
 - 90%+ factual commentary accuracy
 - 85%+ key moment capture rate
-- <34 min processing time per 20-min replay (local inference)
+- <35 min processing time per 20-min replay (local inference)
+- 1080p60 video output
 
 ### Quality vs Paid APIs
 - **Commentary**: 7.5/10 vs 9/10 (OpenAI GPT-4)
@@ -136,13 +148,13 @@ See [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) for full 20-week timeline.
 
 ---
 
-## �️ Hardware Requirements
+## 🏛️ Hardware Requirements
 
 - **GPU**: NVIDIA RTX 3060+ (12GB VRAM minimum)
 - **RAM**: 32GB (16GB system + 16GB models)
 - **Storage**: 1TB SSD (models + replays + output)
 - **CPU**: 8+ cores recommended
-- **OS**: Windows/Linux with Docker + NVIDIA Container Toolkit
+- **OS**: Windows 10/11 (SC2 must be installed)
 
 ---
 
