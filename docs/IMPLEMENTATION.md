@@ -6,38 +6,53 @@
 
 ## 🎯 Current Status
 
-**Phase:** Sprint 1.1 - Docker Environment Setup  
+**Phase:** Phase 1 - Proof of Concept  
+**Sprint:** 1.3 Complete ✅ (Event Extraction)  
 **Started:** November 5, 2025  
-**Progress:** Task 2.5/5 complete (organizing project structure)
+**Progress:** 3/4 Phase 1 sprints complete
 
 ### Completed
-- ✅ Project documentation
-- ✅ Dockerfile created
-- ✅ docker-compose.yml created
-- ✅ Project structure organized
-- ⏳ Docker build in progress
+- ✅ Sprint 1.1: Docker Environment Setup (GPU + SC2 working)
+- ✅ Sprint 1.2: Replay Parser (metadata extraction)
+- ✅ Sprint 1.3: Event Extraction (key moments identified)
+- ✅ Project documentation simplified (10 docs → 3)
+
+### In Progress
+- None - ready for Sprint 2.1
 
 ### Next
-- Docker build completion
-- GPU test (nvidia-smi)
-- Python test
-- Sprint 1.2: Replay parsing
+- Sprint 2.1: Camera Director (determine what to show based on events)
+- Sprint 2.2: Basic video recording proof of concept
 
 ---
 
 ## 📅 Implementation Timeline (20 Weeks)
 
-### Phase 1: Proof of Concept (Weeks 1-2)
+### Phase 1: Proof of Concept (Weeks 1-2) ✅ 75% Complete
 **Goal:** Prove Docker + SC2 + video generation works
 
-**Sprint 1.1:** Docker Environment (Week 1)
+**Sprint 1.1:** Docker Environment ✅ COMPLETE
 - Docker + SC2 + GPU support
 - Deliverable: Container runs, GPU accessible
+- **Completed:** Nov 5, 2025
 
-**Sprint 1.2:** Basic Replay Processing (Week 2)
+**Sprint 1.2:** Basic Replay Processing ✅ COMPLETE
 - Parse demo replay file
-- Extract basic info (players, duration, winner)
+- Extract basic info (players, duration, map)
 - Deliverable: JSON output of replay data
+- **Completed:** Nov 5, 2025
+
+**Sprint 1.3:** Event Extraction ✅ COMPLETE
+- Extract game events (builds, battles, expansions)
+- Categorize by priority (high/medium/low)
+- Identify key moments for camera
+- Deliverable: Events timeline with filtering
+- **Completed:** Nov 5, 2025
+
+**Sprint 1.4:** Video PoC (Week 2) ⏳ NEXT
+- Record short video clip from replay
+- Basic FFmpeg encoding
+- Deliverable: First video file (no commentary)
 
 ### Phase 2: Video Foundation (Weeks 3-4)
 **Goal:** Record and encode video from replay

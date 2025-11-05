@@ -136,6 +136,54 @@ docker compose run --rm sc2cast python3 src/parse_replay.py
 - Race/result need game events (future sprint)
 - Exit code: 0=success, 1=error
 
+### Event Extraction (Sprint 1.3)
+
+**Extract game events with priorities:**
+
+```powershell
+# All events
+docker compose run --rm sc2cast python3 src/parse_replay.py --events
+
+# Key moments only (high priority)
+docker compose run --rm sc2cast python3 src/parse_replay.py --events --key-moments
+
+# Filter by player
+docker compose run --rm sc2cast python3 src/parse_replay.py --events --player Mike
+```
+
+**Event Types:**
+- `expansion` - New base started (high priority)
+- `upgrade` - Tech upgrade completed (high priority)  
+- `battle` - Combat engagement (high priority)
+- `building` - Structure completed (medium priority)
+- `unit_death` - Unit killed (medium priority)
+
+**Priority Levels:**
+- `high` - Key moments (expansions, upgrades, big battles)
+- `medium` - Noteworthy events (buildings, combat)
+- `low` - Minor events (workers, small engagements)
+
+**Event Schema:**
+```json
+{
+  "events": [
+    {
+      "time": 245,
+      "type": "battle",
+      "priority": "high",
+      "player": null,
+      "details": "Major engagement - 15 units lost"
+    }
+  ],
+  "key_moments": [12, 210, 245, 455, 512]
+}
+```
+
+**Notes:**
+- `key_moments` are timestamps (seconds) of high-priority events
+- Used by camera director to focus on important action
+- Player can be `null` for multi-player events (battles)
+
 ---
 
 ## 🎥 LLM Integration (Sprint 3.x)

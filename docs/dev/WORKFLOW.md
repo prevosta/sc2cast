@@ -145,6 +145,24 @@ You: "Do task 2"
 1. **Minimal Code** - Only what THIS task needs
 
 2. **Working Increments** - Every task produces something testable### Step 3: Sprint Complete
+```
+You: "Mark Sprint 1.1 complete"
+Me: Updates CURRENT_SPRINT.md to Sprint 1.2
+    Updates DEVLOG.md with Sprint 1.1 summary
+    **CRITICAL: Updates IMPLEMENTATION.md current status**
+```
+
+**🚨 CRITICAL RULE: When completing a sprint:**
+1. Update `CURRENT_SPRINT.md` with new sprint
+2. Update `DEVLOG.md` with completed sprint entry
+3. **Update `IMPLEMENTATION.md` → "Current Status" section**
+4. Commit all three files together
+
+**Never skip step 3!** IMPLEMENTATION.md must always reflect current progress.
+
+---
+
+## 📏 Quality Principles
 
 3. **No Speculation** - Don't code for future features```
 
