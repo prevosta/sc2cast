@@ -1,4 +1,4 @@
-# Development Workflow Guide# Development Workflow# Development Workflow Guide
+# Development Workflow Guide# Development Workflow Guide# Development Workflow# Development Workflow Guide
 
 
 
@@ -6,7 +6,7 @@
 
 
 
-### Before Each Sprint## 🎯 Core Principle: SIMPLICITY## 🎯 How to Work With Me Effectively
+### Before Each Sprint## 🎯 How to Work With Me Effectively
 
 
 
@@ -14,23 +14,23 @@
 
 2. I will ONLY work on tasks listed in CURRENT_SPRINT.md
 
-3. Each sprint produces 2-5 small, working files maximum**Everything must be minimal:**### Before Each Sprint
+3. Each sprint produces 2-5 small, working files maximum### Before Each Sprint## 🎯 Core Principle: SIMPLICITY## 🎯 How to Work With Me Effectively
 
 
 
-### During Sprint- Minimal code per task
+### During Sprint
 
 
 
-**Your role:**- Minimal files (6 docs maximum)1. **Check CURRENT_SPRINT.md** - This is the ONLY file that matters
+**Your role:**1. **Check CURRENT_SPRINT.md** - This is the ONLY file that matters
 
 - Give me ONE task at a time: "Do task 1", "Do task 2"
 
-- Test each deliverable before moving on- Minimal documentation (no redundancy)2. I will ONLY work on tasks listed in CURRENT_SPRINT.md
+- Test each deliverable before moving on2. I will ONLY work on tasks listed in CURRENT_SPRINT.md
 
 - Update checkboxes in CURRENT_SPRINT.md as we complete tasks
 
-- One source of truth per concept3. Each sprint produces 2-5 small, working files maximum
+3. Each sprint produces 2-5 small, working files maximum**Everything must be minimal:**### Before Each Sprint
 
 **My role:**
 
@@ -38,7 +38,7 @@
 
 - No "over-engineering" or "future-proofing"
 
-- No code that isn't needed for current sprint goal---### During Sprint
+- No code that isn't needed for current sprint goal### During Sprint- Minimal code per task
 
 
 
@@ -46,7 +46,7 @@
 
 
 
-## 📋 File Structure (Final)## 📋 File Structure (Final)**Your role:**
+## 📋 File Structure (Final)**Your role:**- Minimal files (6 docs maximum)1. **Check CURRENT_SPRINT.md** - This is the ONLY file that matters
 
 
 
@@ -54,39 +54,39 @@
 
 ```
 
-src/              # Source code only### Code & Config- Test each deliverable before moving on
+src/              # Source code only- Test each deliverable before moving on- Minimal documentation (no redundancy)2. I will ONLY work on tasks listed in CURRENT_SPRINT.md
 
 tests/            # Tests only
 
-config/           # Config files only```- Update checkboxes in CURRENT_SPRINT.md as we complete tasks
+config/           # Config files only- Update checkboxes in CURRENT_SPRINT.md as we complete tasks
 
 pyproject.toml    # Poetry dependencies
 
-poetry.lock       # Locked dependenciessrc/              # Source code only
+poetry.lock       # Locked dependencies- One source of truth per concept3. Each sprint produces 2-5 small, working files maximum
 
 ```
 
-tests/            # Tests only**My role:**
+**My role:**
 
 ### Documentation (6 Files Maximum)
 
-```config/           # Config files only- Create minimal, working code for that specific task
+```- Create minimal, working code for that specific task
 
 README.md                    # Entry point + quick start
 
-docs/TECHNICAL.md           # All technical info (architecture, setup, examples)Dockerfile- No "over-engineering" or "future-proofing"
+docs/TECHNICAL.md           # All technical info (architecture, setup, examples)- No "over-engineering" or "future-proofing"
 
 docs/IMPLEMENTATION.md      # All planning (timeline, status, milestones)
 
-docs/FAQ.md                 # Questions & answersdocker-compose.yml- No code that isn't needed for current sprint goal
+docs/FAQ.md                 # Questions & answers- No code that isn't needed for current sprint goal---### During Sprint
 
 docs/dev/CURRENT_SPRINT.md  # Active sprint tasks only
 
-docs/dev/DEVLOG.md          # History log (concise)requirements.txt
+docs/dev/DEVLOG.md          # History log (concise)
 
 ```
 
-```### Prompting Guidelines
+---
 
 **That's it. Never create more docs.**
 
@@ -94,251 +94,331 @@ docs/dev/DEVLOG.md          # History log (concise)requirements.txt
 
 ---
 
-### Documentation (6 Files Maximum)#### ✅ GOOD Prompts (Specific, One Task)
+## 📋 File Structure (Final)## 📋 File Structure (Final)**Your role:**
 
 ## 🚫 Documentation Rules
 
-``````
+
 
 ### NEVER Create Separate Files For:
 
-- ❌ "Architecture" vs "Overview" vs "Deep Dive" → ONE `TECHNICAL.md`README.md                    # Entry point + quick start"Create the Dockerfile"
+- ❌ "Architecture" vs "Overview" vs "Deep Dive" → ONE `TECHNICAL.md`### Code & Config- Give me ONE task at a time: "Do task 1", "Do task 2"
 
 - ❌ "Plan" vs "Status" vs "Timeline" → ONE `IMPLEMENTATION.md`
 
-- ❌ "Quick Start" separate → Put in `README.md`docs/TECHNICAL.md           # All technical info (architecture, setup, examples)"Add the demo replay to the project"
+- ❌ "Quick Start" separate → Put in `README.md````
 
 - ❌ "Code Examples" separate → Put in `TECHNICAL.md`
 
-- ❌ "Consistency Reports" → Just fix the actual filesdocs/IMPLEMENTATION.md      # All planning (timeline, status, milestones)"Fix the Docker build error"
+- ❌ "Consistency Reports" → Just fix the actual filessrc/              # Source code only### Code & Config- Test each deliverable before moving on
 
 - ❌ ANY "analysis" or "summary" files → Don't create them
 
-docs/FAQ.md                 # Questions & answers"Complete task 3 in CURRENT_SPRINT.md"
+tests/            # Tests only
 
 ### Rule: One Concept = One Section (Not One File)
 
-docs/dev/CURRENT_SPRINT.md  # Active sprint tasks only"Test if nvidia-smi works in container"
+config/           # Config files only```- Update checkboxes in CURRENT_SPRINT.md as we complete tasks
 
 ---
 
-docs/dev/DEVLOG.md          # History log (concise)```
+pyproject.toml    # Poetry dependencies
 
 ## 🔄 Handling Changes
 
-```
+poetry.lock       # Locked dependenciessrc/              # Source code only
 
 ### When a Decision Changes:
 
-1. **Search** all docs for mentions (grep)#### ❌ BAD Prompts (Too Broad)
+1. **Search** all docs for mentions (grep)```
 
 2. **Update** all at once
 
-3. **Log** in DEVLOG.md (one line)**That's it. Never create more docs.**```
+3. **Log** in DEVLOG.md (one line)tests/            # Tests only**My role:**
 
 4. Done.
 
-"Implement the commentary system"  # Too big!
+### Documentation (6 Files Maximum)
 
 ### Adding New Features:
 
-1. Update `CURRENT_SPRINT.md` (current work)---"Set everything up"                # Too vague!
+1. Update `CURRENT_SPRINT.md` (current work)```config/           # Config files only- Create minimal, working code for that specific task
 
 2. Write code in `src/`
 
-3. Update `TECHNICAL.md` if architecture changes"Create all the infrastructure"    # Too much!
+3. Update `TECHNICAL.md` if architecture changesREADME.md                    # Entry point + quick start
 
 4. Log in `DEVLOG.md` (one line)
 
-## 🚫 Documentation Rules"Build the pipeline"               # Multiple sprints!
+docs/TECHNICAL.md           # All technical info (architecture, setup, examples)Dockerfile- No "over-engineering" or "future-proofing"
 
 **Update everything immediately or don't update at all. Never let docs drift.**
 
-```
+docs/IMPLEMENTATION.md      # All planning (timeline, status, milestones)
 
 ---
 
-### NEVER Create Separate Files For:
+docs/FAQ.md                 # Questions & answersdocker-compose.yml- No code that isn't needed for current sprint goal
 
 ## 📏 Quality Standards
 
-- ❌ "Architecture" vs "Overview" vs "Deep Dive" → ONE `TECHNICAL.md`### File Organization (Keep It Simple)
+docs/dev/CURRENT_SPRINT.md  # Active sprint tasks only
 
 1. **Minimal Code** - Only what THIS task needs
 
-2. **Working Increments** - Every task produces something testable- ❌ "Plan" vs "Status" vs "Timeline" → ONE `IMPLEMENTATION.md`
+2. **Working Increments** - Every task produces something testabledocs/dev/DEVLOG.md          # History log (concise)requirements.txt
 
 3. **No Speculation** - Don't code for future features
 
-4. **Obvious Names** - Self-documenting code- ❌ "Quick Start" separate → Put in `README.md````
+4. **Obvious Names** - Self-documenting code```
 
 5. **One Source of Truth** - Each fact exists in ONE place only
 
-- ❌ "Code Examples" separate → Put in `TECHNICAL.md`sc2cast/
+```### Prompting Guidelines
 
 ---
 
-- ❌ "Consistency Reports" → Just fix the actual files├── CURRENT_SPRINT.md           # ← THE ONLY FILE THAT MATTERS
+**That's it. Never create more docs.**
 
 ## 🎯 Sprint Process
 
-- ❌ ANY "analysis" or "summary" files → Don't create them├── README.md                    # Project overview
+
 
 ```
 
-User: "Start Sprint 1.1"├── docs/                        # All design docs (reference only)
+User: "Start Sprint 1.1"---
 
 → Update CURRENT_SPRINT.md (3-5 tasks)
 
-### Rule: One Concept = One Section (Not One File)│   └── *.md
+### Documentation (6 Files Maximum)#### ✅ GOOD Prompts (Specific, One Task)
 
 User: "Do task 1"
 
-→ Write minimal code├── Dockerfile                   # Sprint 1.1
+→ Write minimal code## 🚫 Documentation Rules
 
 → Test it
 
-→ Mark task complete---├── docker-compose.yml          # Sprint 1.1
+→ Mark task complete``````
 
 
 
-User: "Do task 2"└── src/                        # Code (starts in Sprint 1.2+)
+User: "Do task 2"### NEVER Create Separate Files For:
 
 → Write minimal code
 
-→ Test it## 🔄 Handling Changes    └── (empty for now)
+→ Test it- ❌ "Architecture" vs "Overview" vs "Deep Dive" → ONE `TECHNICAL.md`README.md                    # Entry point + quick start"Create the Dockerfile"
 
 → Mark task complete
 
-```
+- ❌ "Plan" vs "Status" vs "Timeline" → ONE `IMPLEMENTATION.md`
 
 User: "Sprint done"
 
-→ Update DEVLOG.md (2 lines)### When a Decision Changes:
+→ Update DEVLOG.md (2 lines)- ❌ "Quick Start" separate → Put in `README.md`docs/TECHNICAL.md           # All technical info (architecture, setup, examples)"Add the demo replay to the project"
+
+→ Update IMPLEMENTATION.md (current status)
+
+→ GIT COMMIT all files- ❌ "Code Examples" separate → Put in `TECHNICAL.md`
 
 → Start next sprint
 
-```1. **Search** all docs for mentions (grep)## 🔄 Sprint Workflow
+```- ❌ "Consistency Reports" → Just fix the actual filesdocs/IMPLEMENTATION.md      # All planning (timeline, status, milestones)"Fix the Docker build error"
 
 
 
-**One task at a time. No exceptions.**2. **Update** all at once
+**One task at a time. No exceptions.**- ❌ ANY "analysis" or "summary" files → Don't create them
 
 
 
----3. **Log** in DEVLOG.md (one line)### Step 1: Start New Sprint
+---docs/FAQ.md                 # Questions & answers"Complete task 3 in CURRENT_SPRINT.md"
 
 
 
-## 📊 Tracking4. Done.```
+## 📊 Tracking### Rule: One Concept = One Section (Not One File)
 
 
 
-**Current Work:** CURRENT_SPRINT.md (checkboxes)  You: "Start Sprint 1.1"
+**Current Work:** CURRENT_SPRINT.md (checkboxes)  docs/dev/CURRENT_SPRINT.md  # Active sprint tasks only"Test if nvidia-smi works in container"
 
 **History:** DEVLOG.md (2-3 lines per sprint)
 
-### Adding New Features:Me: Updates CURRENT_SPRINT.md with tasks
+---
 
 No separate tracking files. No status reports.
 
-1. Update `CURRENT_SPRINT.md` (current work)```
+docs/dev/DEVLOG.md          # History log (concise)```
 
 ---
 
-2. Write code in `src/`
+## 🔄 Handling Changes
 
-## 🔄 Documentation Consistency
+## 🔄 Sprint Workflow
 
-3. Update `TECHNICAL.md` if architecture changes### Step 2: Execute Tasks
+```
 
-**CRITICAL: Keep all docs aligned when decisions change!**
+### Step 1: Start New Sprint
 
-4. Log in `DEVLOG.md` (one line)```
+```### When a Decision Changes:
 
-### When Making ANY Design Decision or Change:
+You: "Start Sprint 1.1"
+
+Me: Updates CURRENT_SPRINT.md with tasks1. **Search** all docs for mentions (grep)#### ❌ BAD Prompts (Too Broad)
+
+```
+
+2. **Update** all at once
+
+### Step 2: Execute Tasks
+
+```3. **Log** in DEVLOG.md (one line)**That's it. Never create more docs.**```
 
 You: "Do task 1"
 
-1. **Update CURRENT_SPRINT.md** if it affects current work
+Me: Installs Poetry (minimal, working)4. Done.
 
-2. **Update DEVLOG.md** to record the change**Update everything immediately or don't update at all. Never let docs drift.**Me: Creates Dockerfile (minimal, working)
 
-3. **Search for references** in design docs:
 
-   - Use grep/search to find all mentions of the changed concept
-
-   - Example: If switching from Docker → Windows native, search for "Docker" in all docs
-
----You: "Test it - docker build works!"
-
-### Files That MUST Stay Consistent:
+You: "Test it - poetry --version works!""Implement the commentary system"  # Too big!
 
 You: "Do task 2"
 
-**Core Decisions (Update ALL when changed):**
+Me: Initializes pyproject.toml### Adding New Features:
 
-- Technology choices → Update: README, TECHNICAL, IMPLEMENTATION, FAQ## 📏 Quality StandardsMe: Adds SC2 installation to Dockerfile
+```
 
-- Cost/budget → Update: README, IMPLEMENTATION
+1. Update `CURRENT_SPRINT.md` (current work)---"Set everything up"                # Too vague!
 
-- Timeline/sprints → Update: IMPLEMENTATION, CURRENT_SPRINT```
+### Step 3: Sprint Complete
 
+```2. Write code in `src/`
 
+You: "Mark Sprint 1.1 complete"
 
-### Preventing Inconsistency:1. **Minimal Code** - Only what THIS task needs
+Me: Updates CURRENT_SPRINT.md to Sprint 1.23. Update `TECHNICAL.md` if architecture changes"Create all the infrastructure"    # Too much!
 
-- ✅ When editing one doc, think: "What other docs mention this?"
+    Updates DEVLOG.md with Sprint 1.1 summary
 
-- ✅ Use search tools to find all references2. **Working Increments** - Every task produces something testable### Step 3: Sprint Complete
+    Updates IMPLEMENTATION.md current status4. Log in `DEVLOG.md` (one line)
 
-- ✅ Update them ALL at once, not later```
+    COMMITS all sprint files to git
 
-- ✅ Record changes in DEVLOG.mdYou: "Mark Sprint 1.1 complete"
-
-Me: Updates CURRENT_SPRINT.md to Sprint 1.2
-
-**Never let docs drift out of sync!** 🎯    Updates DEVLOG.md with Sprint 1.1 summary
-
-    **CRITICAL: Updates IMPLEMENTATION.md current status**
-
----```
+```## 🚫 Documentation Rules"Build the pipeline"               # Multiple sprints!
 
 
 
-## 🚫 File Creation Discipline**🚨 CRITICAL RULE: When completing a sprint:**
+**🚨 CRITICAL RULE: When completing a sprint:****Update everything immediately or don't update at all. Never let docs drift.**
 
 1. Update `CURRENT_SPRINT.md` with new sprint
 
-**CRITICAL: Minimize new files!**2. Update `DEVLOG.md` with completed sprint entry
+2. Update `DEVLOG.md` with completed sprint entry```
 
-3. **Update `IMPLEMENTATION.md` → "Current Status" section**
+3. Update `IMPLEMENTATION.md` → "Current Status" section
 
-### Before Creating ANY New File, Ask:4. Commit all three files together
+4. **GIT COMMIT with message: "Sprint X.X complete: [description]"**---
 
-1. ❓ Can this go in an existing file?
+5. Then start next sprint
 
-2. ❓ Does this NEED to exist permanently?**Never skip step 3!** IMPLEMENTATION.md must always reflect current progress.
+### NEVER Create Separate Files For:
 
-3. ❓ Will the user reference this file regularly?
+**Never skip steps 3 or 4!** Each sprint MUST be committed before starting the next.
+
+## 📏 Quality Standards
 
 ---
 
+- ❌ "Architecture" vs "Overview" vs "Deep Dive" → ONE `TECHNICAL.md`### File Organization (Keep It Simple)
+
+## 🔄 Documentation Consistency
+
+1. **Minimal Code** - Only what THIS task needs
+
+**CRITICAL: Keep all docs aligned when decisions change!**
+
+2. **Working Increments** - Every task produces something testable- ❌ "Plan" vs "Status" vs "Timeline" → ONE `IMPLEMENTATION.md`
+
+### When Making ANY Design Decision or Change:
+
+3. **No Speculation** - Don't code for future features
+
+1. **Update CURRENT_SPRINT.md** if it affects current work
+
+2. **Update DEVLOG.md** to record the change4. **Obvious Names** - Self-documenting code- ❌ "Quick Start" separate → Put in `README.md````
+
+3. **Search for references** in design docs:
+
+   - Use grep/search to find all mentions of the changed concept5. **One Source of Truth** - Each fact exists in ONE place only
+
+   - Example: If switching from Docker → Windows native, search for "Docker" in all docs
+
+- ❌ "Code Examples" separate → Put in `TECHNICAL.md`sc2cast/
+
+### Files That MUST Stay Consistent:
+
+---
+
+**Core Decisions (Update ALL when changed):**
+
+- Technology choices → Update: README, TECHNICAL, IMPLEMENTATION, FAQ- ❌ "Consistency Reports" → Just fix the actual files├── CURRENT_SPRINT.md           # ← THE ONLY FILE THAT MATTERS
+
+- Cost/budget → Update: README, IMPLEMENTATION
+
+- Timeline/sprints → Update: IMPLEMENTATION, CURRENT_SPRINT## 🎯 Sprint Process
+
+
+
+### Preventing Inconsistency:- ❌ ANY "analysis" or "summary" files → Don't create them├── README.md                    # Project overview
+
+- ✅ When editing one doc, think: "What other docs mention this?"
+
+- ✅ Use search tools to find all references```
+
+- ✅ Update them ALL at once, not later
+
+- ✅ Record changes in DEVLOG.mdUser: "Start Sprint 1.1"├── docs/                        # All design docs (reference only)
+
+
+
+**Never let docs drift out of sync!** 🎯→ Update CURRENT_SPRINT.md (3-5 tasks)
+
+
+
+---### Rule: One Concept = One Section (Not One File)│   └── *.md
+
+
+
+## 🚫 File Creation DisciplineUser: "Do task 1"
+
+
+
+**CRITICAL: Minimize new files!**→ Write minimal code├── Dockerfile                   # Sprint 1.1
+
+
+
+### Before Creating ANY New File, Ask:→ Test it
+
+1. ❓ Can this go in an existing file?
+
+2. ❓ Does this NEED to exist permanently?→ Mark task complete---├── docker-compose.yml          # Sprint 1.1
+
+3. ❓ Will the user reference this file regularly?
+
+
+
 ### ✅ GOOD Reasons to Create a File:
 
-- Core code files (required for functionality)## 📏 Quality Principles
+- Core code files (required for functionality)User: "Do task 2"└── src/                        # Code (starts in Sprint 1.2+)
 
 - Essential config files (pyproject.toml, poetry.lock)
 
-- Primary docs (README, DEVLOG, WORKFLOW, CURRENT_SPRINT)3. **No Speculation** - Don't code for future features```
+- Primary docs (README, DEVLOG, WORKFLOW, CURRENT_SPRINT)→ Write minimal code
 
 
 
-### ❌ BAD Reasons to Create a File:4. **Obvious Names** - Self-documenting codeYou: "Mark Sprint 1.1 complete"
+### ❌ BAD Reasons to Create a File:→ Test it## 🔄 Handling Changes    └── (empty for now)
 
 - "Consistency reports" ← Update the actual files instead!
 
-- "Status summaries" ← Use DEVLOG.md5. **One Source of Truth** - Each fact exists in ONE place onlyMe: Updates CURRENT_SPRINT.md to Sprint 1.2
+- "Status summaries" ← Use DEVLOG.md→ Mark task complete
 
 - "Analysis documents" ← Mention in conversation, don't save
 
@@ -346,15 +426,292 @@ Me: Updates CURRENT_SPRINT.md to Sprint 1.2
 
 - "Planning files" ← Use CURRENT_SPRINT.md
 
----
+User: "Sprint done"
 
 ### Rule of Thumb:
 
-**If it's not code, config, or a core workflow doc → DON'T CREATE IT**## 📏 Quality Principles
+**If it's not code, config, or a core workflow doc → DON'T CREATE IT**→ Update DEVLOG.md (2 lines)### When a Decision Changes:
 
 
 
-When in doubt: Update existing files or just tell the user verbally.## 🎯 Sprint Process
+When in doubt: Update existing files or just tell the user verbally.→ Start next sprint
+
+
+
+---```1. **Search** all docs for mentions (grep)## 🔄 Sprint Workflow
+
+
+
+## 🎯 Example: Sprint 1.1 (Windows Environment Setup)
+
+
+
+### Task 1: Install Python & Poetry**One task at a time. No exceptions.**2. **Update** all at once
+
+```powershell
+
+# Install Poetry
+
+pip install poetry
+
+---3. **Log** in DEVLOG.md (one line)### Step 1: Start New Sprint
+
+# Verify installation
+
+poetry --version
+
+```
+
+## 📊 Tracking4. Done.```
+
+### Task 2: Initialize Project
+
+```powershell
+
+# Create pyproject.toml
+
+poetry init**Current Work:** CURRENT_SPRINT.md (checkboxes)  You: "Start Sprint 1.1"
+
+
+
+# Add dependencies**History:** DEVLOG.md (2-3 lines per sprint)
+
+poetry add sc2reader python-sc2
+
+poetry add --group dev pytest black### Adding New Features:Me: Updates CURRENT_SPRINT.md with tasks
+
+```
+
+No separate tracking files. No status reports.
+
+### Task 3: Verify SC2 Installation
+
+```python1. Update `CURRENT_SPRINT.md` (current work)```
+
+# Simple script to check SC2 path
+
+import os---
+
+from pathlib import Path
+
+2. Write code in `src/`
+
+sc2_path = Path("C:/Program Files (x86)/StarCraft II")
+
+if sc2_path.exists():## 🔄 Documentation Consistency
+
+    print(f"✅ SC2 found at: {sc2_path}")
+
+else:3. Update `TECHNICAL.md` if architecture changes### Step 2: Execute Tasks
+
+    print("❌ SC2 not found!")
+
+```**CRITICAL: Keep all docs aligned when decisions change!**
+
+
+
+### Task 4: Test Poetry Environment4. Log in `DEVLOG.md` (one line)```
+
+```powershell
+
+poetry install### When Making ANY Design Decision or Change:
+
+poetry run python --version
+
+# Success! Sprint 1.1 complete.You: "Do task 1"
+
+```
+
+1. **Update CURRENT_SPRINT.md** if it affects current work
+
+---
+
+2. **Update DEVLOG.md** to record the change**Update everything immediately or don't update at all. Never let docs drift.**Me: Creates Dockerfile (minimal, working)
+
+## 🚧 When Things Go Wrong
+
+3. **Search for references** in design docs:
+
+**If I start creating too much code:**
+
+- You: "STOP. Focus only on task X"   - Use grep/search to find all mentions of the changed concept
+
+- I will: Delete extra code, focus on one task
+
+   - Example: If switching from Docker → Windows native, search for "Docker" in all docs
+
+**If you're not sure what to ask:**
+
+- You: "What's the next task?"---You: "Test it - docker build works!"
+
+- I will: Read CURRENT_SPRINT.md and tell you
+
+### Files That MUST Stay Consistent:
+
+**If sprint is taking too long:**
+
+- You: "Simplify this task"You: "Do task 2"
+
+- I will: Cut scope, make it smaller
+
+**Core Decisions (Update ALL when changed):**
+
+---
+
+- Technology choices → Update: README, TECHNICAL, IMPLEMENTATION, FAQ## 📏 Quality StandardsMe: Adds SC2 installation to Dockerfile
+
+## 📊 Progress Tracking
+
+- Cost/budget → Update: README, IMPLEMENTATION
+
+Use CURRENT_SPRINT.md checkboxes:
+
+```markdown- Timeline/sprints → Update: IMPLEMENTATION, CURRENT_SPRINT```
+
+## Tasks
+
+- [x] Task 1: Install Poetry ✅
+
+- [x] Task 2: Initialize project ✅
+
+- [ ] Task 3: Verify SC2 path### Preventing Inconsistency:1. **Minimal Code** - Only what THIS task needs
+
+- [ ] Task 4: Test environment
+
+```- ✅ When editing one doc, think: "What other docs mention this?"
+
+
+
+---- ✅ Use search tools to find all references2. **Working Increments** - Every task produces something testable### Step 3: Sprint Complete
+
+
+
+## 🎓 Philosophy- ✅ Update them ALL at once, not later```
+
+
+
+> "Make the smallest change that proves the concept works."- ✅ Record changes in DEVLOG.mdYou: "Mark Sprint 1.1 complete"
+
+
+
+- Sprint 1.1: Python environment ready ✅Me: Updates CURRENT_SPRINT.md to Sprint 1.2
+
+- Sprint 1.2: Replay file parsed ✅
+
+- Sprint 1.3: Events extracted ✅**Never let docs drift out of sync!** 🎯    Updates DEVLOG.md with Sprint 1.1 summary
+
+- Sprint 1.4: Video generated ✅
+
+    **CRITICAL: Updates IMPLEMENTATION.md current status**
+
+Each sprint adds ONE capability. No more.
+
+---```
+
+---
+
+
+
+## 🚀 Ready to Start?
+
+## 🚫 File Creation Discipline**🚨 CRITICAL RULE: When completing a sprint:**
+
+When you're ready:
+
+1. Review CURRENT_SPRINT.md1. Update `CURRENT_SPRINT.md` with new sprint
+
+2. Say: "Do task 1" or "Install Poetry"
+
+3. Test the output**CRITICAL: Minimize new files!**2. Update `DEVLOG.md` with completed sprint entry
+
+4. Move to next task
+
+3. **Update `IMPLEMENTATION.md` → "Current Status" section**
+
+**Let's build this one small step at a time!** 🎯
+
+### Before Creating ANY New File, Ask:4. Commit all three files together
+
+---
+
+1. ❓ Can this go in an existing file?
+
+## Prompting Guidelines
+
+2. ❓ Does this NEED to exist permanently?**Never skip step 3!** IMPLEMENTATION.md must always reflect current progress.
+
+### ✅ GOOD Prompts (Specific, One Task)
+
+```3. ❓ Will the user reference this file regularly?
+
+"Install Poetry"
+
+"Add the demo replay to the project"---
+
+"Test if SC2 path is correct"
+
+"Complete task 3 in CURRENT_SPRINT.md"### ✅ GOOD Reasons to Create a File:
+
+"Parse the replay metadata"
+
+```- Core code files (required for functionality)## 📏 Quality Principles
+
+
+
+### ❌ BAD Prompts (Too Broad)- Essential config files (pyproject.toml, poetry.lock)
+
+```
+
+"Implement the commentary system"  # Too big!- Primary docs (README, DEVLOG, WORKFLOW, CURRENT_SPRINT)3. **No Speculation** - Don't code for future features```
+
+"Set everything up"                # Too vague!
+
+"Create all the infrastructure"    # Too much!
+
+"Build the pipeline"               # Multiple sprints!
+
+```### ❌ BAD Reasons to Create a File:4. **Obvious Names** - Self-documenting codeYou: "Mark Sprint 1.1 complete"
+
+
+
+---- "Consistency reports" ← Update the actual files instead!
+
+
+
+## File Organization (Keep It Simple)- "Status summaries" ← Use DEVLOG.md5. **One Source of Truth** - Each fact exists in ONE place onlyMe: Updates CURRENT_SPRINT.md to Sprint 1.2
+
+
+
+```- "Analysis documents" ← Mention in conversation, don't save
+
+sc2cast/
+
+├── CURRENT_SPRINT.md           # ← THE ONLY FILE THAT MATTERS- "Temporary notes" ← Never create these```
+
+├── README.md                    # Project overview
+
+├── pyproject.toml               # Poetry config- "Planning files" ← Use CURRENT_SPRINT.md
+
+├── poetry.lock                  # Locked dependencies
+
+├── docs/                        # All design docs (reference only)---
+
+│   └── *.md
+
+└── src/                         # Code (starts in Sprint 1.2+)### Rule of Thumb:
+
+    └── (empty for now)
+
+```**If it's not code, config, or a core workflow doc → DON'T CREATE IT**## 📏 Quality Principles
+
+
+
+---
+
+
+
+**Keep it simple. Keep it clean. Keep moving.** 🚀When in doubt: Update existing files or just tell the user verbally.## 🎯 Sprint Process
+
 
 
 
