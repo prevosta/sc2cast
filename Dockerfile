@@ -26,6 +26,9 @@ RUN wget -q http://blzdistsc2-a.akamaihd.net/Linux/SC2.4.10.zip \
 # Set SC2 environment variable
 ENV SC2PATH=/opt/StarCraftII
 
+# Install Python packages
+RUN pip install --no-cache-dir --upgrade sc2reader
+
 # Set working directory
 WORKDIR /workspace
 

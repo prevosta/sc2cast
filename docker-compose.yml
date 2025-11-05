@@ -16,6 +16,7 @@ services:
     # Volume mounts
     volumes:
       - ./src:/workspace/src
+      - ./replays:/workspace/replays
       - ./output:/workspace/output
       - .:/workspace/project
     
