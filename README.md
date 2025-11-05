@@ -17,34 +17,50 @@ SC2Cast is an end-to-end automated pipeline that:
 
 ---
 
-## 📂 Documentation Structure
+## 📂 Project Structure
 
-This repository contains comprehensive planning and design documentation in the `docs/` folder:
+```
+sc2cast/
+├── docs/
+│   ├── design/           # Technical design documentation  
+│   └── dev/              # Development workflow & logs
+├── src/                  # Source code (Sprint 1.2+)
+├── tests/                # Test files (Sprint 2.x+)
+├── config/               # Configuration files (Sprint 3.x+)
+├── replays/
+│   └── demo/             # Demo replay files
+├── output/               # Generated videos (gitignored)
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
+```
 
-### Core Documents
+## 📚 Documentation
 
-1. **[docs/PANEL_PRESENTATION.md](docs/PANEL_PRESENTATION.md)** ⭐ START HERE
+### Design Documentation (`docs/design/`)
+
+1. **[docs/design/PANEL_PRESENTATION.md](docs/design/PANEL_PRESENTATION.md)** ⭐ START HERE
    - Executive summary and project overview
    - Quick facts and key innovations
    - Perfect for understanding the project at a glance
 
-2. **[docs/ZERO_BUDGET_APPROACH.md](docs/ZERO_BUDGET_APPROACH.md)** 💰 **ZERO-COST STRATEGY**
+2. **[docs/design/ZERO_BUDGET_APPROACH.md](docs/design/ZERO_BUDGET_APPROACH.md)** 💰 **ZERO-COST STRATEGY**
    - 100% open-source, locally-runnable solutions
    - No external API costs
    - Self-hosted LLM and TTS options
    - Budget-conscious architecture
 
-3. **[docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md)**
+3. **[docs/design/PROJECT_OVERVIEW.md](docs/design/PROJECT_OVERVIEW.md)**
    - High-level system design
    - Technology stack decisions
    - Project structure and success metrics
 
-4. **[docs/TECHNICAL_DEEP_DIVE.md](docs/TECHNICAL_DEEP_DIVE.md)**
+4. **[docs/design/TECHNICAL_DEEP_DIVE.md](docs/design/TECHNICAL_DEEP_DIVE.md)**
    - Detailed technical analysis of each component
    - Algorithm explanations
    - Library comparisons and justifications
 
-5. **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**
+5. **[docs/design/ARCHITECTURE.md](docs/design/ARCHITECTURE.md)**
    - System architecture diagrams
    - Module breakdown and responsibilities
    - Data models and database schema

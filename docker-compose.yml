@@ -1,0 +1,27 @@
+services:
+  sc2cast:
+    build: .
+    image: sc2cast:latest
+    container_name: sc2cast
+    
+    # GPU support for NVIDIA
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    
+    # Volume mounts
+    volumes:
+      - ./src:/workspace/src
+      - ./output:/workspace/output
+      - .:/workspace/project
+    
+    # Keep container running for interactive use
+    stdin_open: true
+    tty: true
+    
+    # Working directory
+    working_dir: /workspace

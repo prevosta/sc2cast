@@ -85,6 +85,71 @@ Me: Updates CURRENT_SPRINT.md to Sprint 1.2
 4. **Obvious Naming** - `parse_replay()` not `process_data()`
 5. **Fail Fast** - Basic error handling only, let things crash
 
+## 🚫 File Creation Discipline
+
+**CRITICAL: Minimize new files!**
+
+### Before Creating ANY New File, Ask:
+1. ❓ Can this go in an existing file?
+2. ❓ Does this NEED to exist permanently?
+3. ❓ Will the user reference this file regularly?
+
+### ✅ GOOD Reasons to Create a File:
+- Core code files (required for functionality)
+- Essential config files (Dockerfile, docker-compose.yml)
+- Primary docs (README, DEVLOG, WORKFLOW, CURRENT_SPRINT)
+
+### ❌ BAD Reasons to Create a File:
+- "Consistency reports" ← Update the actual files instead!
+- "Status summaries" ← Use DEVLOG.md
+- "Analysis documents" ← Mention in conversation, don't save
+- "Temporary notes" ← Never create these
+- "Planning files" ← Use CURRENT_SPRINT.md
+
+### Rule of Thumb:
+**If it's not code, config, or a core workflow doc → DON'T CREATE IT**
+
+When in doubt: Update existing files or just tell the user verbally.
+
+## 🔄 Documentation Consistency
+
+**CRITICAL: Keep all docs aligned when decisions change!**
+
+### When Making ANY Design Decision or Change:
+
+1. **Update CURRENT_SPRINT.md** if it affects current work
+2. **Update DEVLOG.md** to record the change
+3. **Search for references** in design docs:
+   - Use grep/search to find all mentions of the changed concept
+   - Example: If switching from GPT-4 → Llama, search for "GPT-4" in all docs
+
+### Files That MUST Stay Consistent:
+
+**Core Decisions (Update ALL when changed):**
+- Technology choices → Update: PROJECT_OVERVIEW, TECHNICAL_DEEP_DIVE, ARCHITECTURE, CODE_EXAMPLES, FAQ
+- Cost/budget → Update: README, PANEL_PRESENTATION, PROJECT_STATUS, ZERO_BUDGET_APPROACH
+- Timeline/sprints → Update: IMPLEMENTATION_PLAN, PROJECT_STATUS, CURRENT_SPRINT
+
+**Example Workflow for a Decision Change:**
+```
+User: "Let's use GPT-4 instead of Llama"
+
+You: 
+1. ❓ Search all docs for "Llama" and "GPT-4"
+2. ✏️ Update 5-6 files with new decision
+3. 📝 Record in DEVLOG.md: "Changed LLM from Llama to GPT-4"
+4. 💰 Update cost estimates (now $150/mo instead of $0)
+5. ✅ Verify consistency across all docs
+```
+
+### Preventing Inconsistency:
+- ✅ When editing one doc, think: "What other docs mention this?"
+- ✅ Use search tools to find all references
+- ✅ Update them ALL at once, not later
+- ✅ Record changes in DEVLOG.md
+
+**Never let docs drift out of sync!** 🎯
+
 ## 🎯 Example: Sprint 1.1 (Docker Setup)
 
 ### Task 1: Create Dockerfile
@@ -171,3 +236,34 @@ When you're ready:
 4. Move to next task
 
 **Let's build this one small step at a time!** 🎯
+
+---
+
+## 📜 Sprint History Log
+
+### Sprint 1.1: Docker Environment Setup
+**Status:** In Progress - Task 3  
+**Started:** November 5, 2025
+
+#### Completed Tasks:
+- ✅ **Task 1**: `Dockerfile` exists (33 lines)
+- ✅ **Task 2**: `docker-compose.yml` exists (29 lines)
+
+#### Current Task:
+- 🔄 **Task 3**: Test Container Build
+  - Status: Building now (5-10 minutes estimated)
+  - Running: `docker compose build`
+  - Progress: Installing system packages
+
+#### Next Tasks:
+- ⏸️ **Task 4**: Test GPU Access
+- ⏸️ **Task 5**: Test Python
+
+#### Files Created:
+```
+Dockerfile              (SC2 + CUDA + Python environment)
+docker-compose.yml      (GPU support, volume mounts)
+```
+
+#### Notes:
+- Build in progress, downloading packages (~4GB SC2 client next)

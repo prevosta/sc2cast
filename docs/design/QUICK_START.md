@@ -598,7 +598,8 @@ python -m src.cli process --replay ./tests/fixtures/test_replay.SC2Replay --test
 ### Training Resources
 - YouTube channels: Lowko, PiG, Harstem, Winter
 - Transcript tool: youtube-transcript-api
-- LLM APIs: OpenAI, Anthropic, Together.ai
+- Local LLM: Ollama (https://ollama.com)
+- Local TTS: Coqui TTS (https://github.com/coqui-ai/TTS)
 
 ---
 

@@ -24,6 +24,12 @@ Create `docker-compose.yml` with:
 - Volume mounts for replays and output
 - Keep it simple (~25 lines max)
 
+### Task 2.5: Organize Project Structure
+Create folders and move files:
+- Create `replays/demo/` folder
+- Move demo replay to `replays/demo/`
+- Update .gitignore for replays folder structure
+
 ### Task 3: Test Container Build
 ```powershell
 docker-compose build

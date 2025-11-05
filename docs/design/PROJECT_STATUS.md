@@ -114,7 +114,7 @@ I have created **comprehensive documentation** for the SC2Cast project covering 
    - Split-screen and picture-in-picture
 
 ✅ **AI Commentary**
-   - LLM selection (GPT-4 vs Claude vs local)
+   - LLM: Llama 3.1 8B (local via Ollama) - FINAL DECISION
    - Training data collection (YouTube transcripts)
    - Prompt engineering strategies
    - Factual validation systems
@@ -123,7 +123,7 @@ I have created **comprehensive documentation** for the SC2Cast project covering 
    - RAG (Retrieval-Augmented Generation) approach
 
 ✅ **Audio Production**
-   - TTS options comparison (Coqui vs ElevenLabs vs Google)
+   - TTS: Coqui TTS (local, GPU-accelerated) - FINAL DECISION
    - Voice quality and customization
    - Prosody and emotion control
    - Background music mixing
@@ -178,15 +178,16 @@ I have created **comprehensive documentation** for the SC2Cast project covering 
 - **Factual Accuracy Target**: 90%+
 
 ### Resource Requirements
-- **RAM**: 16GB minimum, 32GB recommended
-- **GPU**: RTX 3060+ minimum, RTX 4090 optimal
-- **Storage**: 500GB SSD minimum, 2TB for production
-- **CPU**: 6+ cores recommended
+- **RAM**: 32GB (16GB system + 16GB for models)
+- **GPU**: RTX 3060+ 12GB VRAM (already available)
+- **Storage**: 1TB SSD (models + replays + videos)
+- **CPU**: 8+ cores recommended
 
-### Cost Analysis
-- **Minimal Budget**: $50-100/month (use existing hardware, free APIs)
-- **Optimal Budget**: $300-500/month + $3k hardware
-- **Per-Video Cost**: $0.50-1.00 (with GPT-4)
+### Cost Analysis (Zero-Budget Approach)
+- **Operational Costs**: $0/month (all AI runs locally)
+- **Hardware**: Already available (no additional cost)
+- **Per-Video Cost**: $0 (local Llama 3.1 + Coqui TTS)
+- **Electricity**: ~$20-30/month (GPU running)
 
 ### Timeline
 - **MVP**: 7 weeks
