@@ -7,28 +7,28 @@
 ## 🎯 Current Status
 
 **Phase:** Phase 1 - Proof of Concept  
-**Sprint:** 1.3 Complete ✅ (Event Extraction)  
+**Sprint:** 1.4 In Progress ⏳ (Video Recording PoC)  
 **Started:** November 5, 2025  
-**Progress:** 3/4 Phase 1 sprints complete
+**Progress:** 3/4 Phase 1 sprints complete (75%)
 
 ### Completed
 - ✅ Sprint 1.1: Docker Environment Setup (GPU + SC2 working)
 - ✅ Sprint 1.2: Replay Parser (metadata extraction)
 - ✅ Sprint 1.3: Event Extraction (key moments identified)
-- ✅ Project documentation simplified (10 docs → 3)
 
 ### In Progress
-- None - ready for Sprint 2.1
+- ⏳ Sprint 1.4: Video Recording PoC - **HIGHEST TECHNICAL RISK**
+  - Goal: Prove SC2 + Docker + FFmpeg → MP4 video file
+  - If this fails, entire project needs pivot
 
 ### Next
-- Sprint 2.1: Camera Director (determine what to show based on events)
-- Sprint 2.2: Basic video recording proof of concept
+- Phase 2: Video Foundation (if PoC succeeds)
 
 ---
 
 ## 📅 Implementation Timeline (20 Weeks)
 
-### Phase 1: Proof of Concept (Weeks 1-2) ✅ 75% Complete
+### Phase 1: Proof of Concept (Weeks 1-2) ⏳ 75% Complete
 **Goal:** Prove Docker + SC2 + video generation works
 
 **Sprint 1.1:** Docker Environment ✅ COMPLETE
@@ -48,6 +48,14 @@
 - Identify key moments for camera
 - Deliverable: Events timeline with filtering
 - **Completed:** Nov 5, 2025
+
+**Sprint 1.4:** Video Recording PoC ⏳ IN PROGRESS
+- Install video dependencies (Xvfb, FFmpeg, python-sc2)
+- Launch SC2 headless, open replay programmatically
+- Record 10-second video clip with FFmpeg
+- Deliverable: MP4 file in output/ directory
+- **Risk Level:** 🔴 HIGHEST - This is make-or-break for the project
+- **Started:** Nov 5, 2025
 
 **Sprint 1.4:** Video PoC (Week 2) ⏳ NEXT
 - Record short video clip from replay

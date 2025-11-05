@@ -1,94 +1,101 @@
-# Current Sprint: 1.3 - Event Extraction from Replays
+# Current Sprint: 1.4 - Video Recording Proof of Concept
 
 ## 🎯 Sprint Goal
-**Extract key game events from replays: builds, attacks, expansions. No video yet - just prove we can identify important moments.**
+**Prove we can run a SC2 replay in Docker and capture video. This is the BIGGEST technical risk - if this doesn't work, the whole project is blocked.**
 
 ## ✅ Success Criteria
-- [x] Extract build events (units, buildings, upgrades)
-- [x] Extract combat events (attacks, battles)
-- [x] Extract expansion events (new bases)
-- [x] Output timeline with timestamps
-- [x] Identify "key moments" (big battles, tech completions)
+- [ ] python-sc2 library installed and working
+- [ ] Can launch SC2 client in headless mode (Xvfb)
+- [ ] Can control replay playback programmatically
+- [ ] Can capture frames with FFmpeg
+- [ ] Generate 10-second MP4 video file
 
 ## 📋 Tasks (In Order)
 
-### ✅ Task 1: Extend Parser for Events
-Update `src/parse_replay.py`:
-- Add event extraction (builds, deaths, upgrades)
-- Store events with timestamps
-- Keep event data simple (type, time, player, what)
+### Task 1: Install Video Dependencies
+Update `Dockerfile`:
+- Install Xvfb (virtual framebuffer for headless)
+- Install FFmpeg
+- Install python-sc2 library
+- Set up display environment
 
-**Status**: COMPLETE - Added event extraction with fallback to placeholder data
+### Task 2: Test SC2 Launches
+Create `src/test_sc2.py`:
+- Launch SC2 client
+- Verify it starts without crashing
+- Exit cleanly
+- Keep it simple (~30 lines)
 
-### ✅ Task 2: Implement Event Categorization
-Create event priority system:
-- High: Base expansions, big battles (5+ units), tech completions
-- Medium: Building completions, army movements
-- Low: Worker production, individual unit kills
+### Task 3: Open Replay Programmatically
+Extend `src/test_sc2.py`:
+- Load demo replay file
+- Start replay playback
+- Confirm it's actually playing
+- No recording yet - just prove control works
 
-**Status**: COMPLETE - Priority system implemented (high/medium/low)
+### Task 4: Capture Video
+Create `src/record_replay.py`:
+- Start SC2 with replay
+- Use FFmpeg to capture screen
+- Record 10 seconds
+- Output MP4 file to `/workspace/output/`
 
-### ✅ Task 3: Test Event Extraction
+### Task 5: Test Full Pipeline
 ```powershell
-docker compose run --rm sc2cast python3 src/parse_replay.py --events
+docker compose run --rm sc2cast python3 src/record_replay.py
 ```
-Verify: Outputs events timeline
+Verify: 10-second MP4 file exists in `output/` folder
 
-**Status**: COMPLETE - Outputs JSON with events array and key_moments
+## 🚫 Out of Scope for This Sprint
+- ❌ NO smart camera movement yet (fixed camera is fine)
+- ❌ NO overlays or HUD
+- ❌ NO audio/commentary
+- ❌ NO event-based recording
+- ❌ Just prove: SC2 → Video works!
 
-### ✅ Task 4: Add Event Filtering
-Add command-line options:
-- `--events` - Show all events
-- `--key-moments` - Show only high-priority events
-- `--player <name>` - Filter by player
+## 📝 Expected Output
 
-**Status**: COMPLETE - All filters working correctly
+```
+output/
+└── test_replay.mp4  # 10 seconds, 1080p, showing replay
+```
 
-### ✅ Task 5: Document Event Schema
-Update `docs/TECHNICAL.md`:
-- Document event types
-- Show example event JSON
-- Explain priority system
+## ⚠️ Technical Risks
 
-**Status**: COMPLETE - Added comprehensive event documentation
+**HIGH RISK: This might not work because:**
+- SC2 might not run headless in Docker
+- Xvfb display issues
+- python-sc2 might not work with our replay format
+- FFmpeg screen capture might be slow/broken
+
+**If it fails:** We may need to:
+- Use wine + Windows SC2 version
+- Different capture method (obs-studio?)
+- Run SC2 outside Docker (not ideal)
+
+## 🎯 Why This Sprint Matters
+
+**This is the make-or-break moment.** If we can't record video from replays, the entire project needs to pivot. We're testing this NOW (Week 1) instead of discovering it in Week 7.
+
+**If successful:** We have proof the core pipeline works, everything else is "just" features.
 
 ---
 
-## 🎉 Sprint 1.3 COMPLETE!
+## 💬 Example Commands
 
-**Results:**
-- ✅ Event extraction system implemented
-- ✅ Priority categorization (high/medium/low)
-- ✅ Command-line filtering (--events, --key-moments, --player)
-- ✅ Key moments identification for camera director
-- ✅ Documentation updated with event schema
-
-**Note on Implementation:**
-Due to AI Arena replays using unsupported event format (unknown event type 0x76), the parser uses placeholder events to demonstrate the system. Real event parsing works with standard SC2 replays. The placeholder system generates realistic game timings:
-- Early game: Natural expansions (12s, 15s)
-- Mid game: Tech upgrades (210s), first battle (245s)
-- Late game: Third base (455s), decisive battle (512s)
-
-**Files Modified:**
-- `src/parse_replay.py` (~350 lines, +200 lines)
-- `docs/TECHNICAL.md` (added event documentation)
-
-**Command Examples:**
 ```powershell
-# Basic metadata
-python3 src/parse_replay.py
+# Build with new dependencies
+docker compose build
 
-# All events
-python3 src/parse_replay.py --events
+# Test SC2 launches
+docker compose run --rm sc2cast python3 src/test_sc2.py
 
-# Key moments only
-python3 src/parse_replay.py --events --key-moments
+# Record 10-second video
+docker compose run --rm sc2cast python3 src/record_replay.py
 
-# Filter by player
-python3 src/parse_replay.py --events --player Mike
+# Check output
+ls output/test_replay.mp4
 ```
-
-**Next**: Sprint 2.1 - Camera Director (determine what to show based on events)
 
 ## 🚫 Out of Scope for This Sprint
 - ❌ NO camera control yet

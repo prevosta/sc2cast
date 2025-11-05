@@ -207,3 +207,31 @@ AI Arena replays use unsupported event format (unknown event type 0x76). Parser 
 ---
 
 *This log is updated after each significant milestone or sprint completion.*
+
+---
+
+## Sprint 1.4: Video Recording Proof of Concept
+**Date**: Nov 5, 2025  
+**Duration**: TBD (Starting now)  
+**Status**: ⏳ IN PROGRESS
+
+**Goal**: Prove we can run SC2 replay in Docker and capture video to file.
+
+**Why This Sprint**: This is the BIGGEST technical risk. If we can't record video from replays in Docker, the entire project is blocked. Testing this NOW instead of discovering issues later.
+
+**Tasks**:
+1. ⏳ Install video dependencies (Xvfb, FFmpeg, python-sc2)
+2. ⏳ Test SC2 launches headless
+3. ⏳ Open replay programmatically
+4. ⏳ Capture 10-second video with FFmpeg
+5. ⏳ Verify MP4 output file exists
+
+**Expected Output**: `output/test_replay.mp4` (10 seconds of replay footage)
+
+**Technical Risks**: 
+- SC2 might not run headless in Docker
+- Xvfb display issues  
+- python-sc2 compatibility with AI Arena replays
+- FFmpeg screen capture performance
+
+**Outcome**: TBD
