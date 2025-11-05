@@ -1,3 +1,105 @@
+# Sprint 2.2: Event-Based Camera Intelligence
+
+**Goal:** Make camera decisions based on actual game events (battles, expansions, builds)
+**Started:** November 6, 2025  
+**Status:** In Progress
+
+---
+
+## 🎯 Objective
+
+Enhance the camera director to make intelligent decisions based on game events instead of just following a hardcoded script:
+1. Parse replay events (battles, expansions, unit production, upgrades)
+2. Prioritize events by importance
+3. Generate dynamic camera script based on events
+4. Detect "interesting moments" automatically
+5. Smooth camera transitions between events
+6. Add audio capture from SC2 game sounds
+
+**Success = Camera automatically follows the action without manual scripting!**
+
+---
+
+## 📋 Tasks
+
+- [ ] **Task 1:** Replay Event Parser
+  - Extract combat events (battles, kills, army value changes)
+  - Extract economy events (expansions, worker counts)
+  - Extract production events (units, buildings, upgrades)
+  - Deliverable: `src/sc2cast/event_parser.py` with full event extraction
+
+- [ ] **Task 2:** Event Prioritization
+  - Score events by importance (big battles = high, worker production = low)
+  - Filter out noise (random scout kills, etc.)
+  - Create timeline of important moments
+  - Deliverable: Ranked event timeline with priorities
+
+- [ ] **Task 3:** Dynamic Camera Script Generator
+  - Convert event timeline to camera script
+  - Add buffer time before/after events
+  - Ensure minimum shot duration (3-5 seconds)
+  - Deliverable: Auto-generated camera script from events
+
+- [ ] **Task 4:** Audio Capture
+  - Add audio capture to FFmpeg command
+  - Test with SC2 game sounds
+  - Verify audio sync with video
+  - Deliverable: Videos with game audio
+
+- [ ] **Task 5:** Integration Test
+  - Test with multiple different replays
+  - Verify camera follows action automatically
+  - Check audio quality
+  - Deliverable: Multiple automated videos with different replays
+
+---
+
+## 📦 Deliverables
+
+- `src/sc2cast/event_parser.py` - Extract game events from replays
+- `src/sc2cast/event_prioritizer.py` - Score and filter events
+- `src/sc2cast/script_generator.py` - Convert events to camera scripts
+- Updated `recording_pipeline.py` with audio capture
+- Videos with event-based camera work and audio
+
+---
+
+## 🎯 Success Criteria
+
+- ✅ Can extract and parse all important game events
+- ✅ Events are scored and prioritized correctly
+- ✅ Camera script generated automatically from events
+- ✅ Audio captured and synced with video
+- ✅ Works with any replay file (not hardcoded)
+- ✅ **Camera intelligently follows the action!**
+
+---
+
+## 📝 Notes
+
+**Available Tools:**
+- sc2reader library for event extraction
+- Existing camera_director.py for execution
+- Existing game_clock.py for timing
+- recording_pipeline.py as foundation
+
+**Event Types to Capture:**
+- Unit deaths (especially expensive units)
+- Base expansions
+- Army engagements (detection via army value changes)
+- Upgrade completions
+- Building completions (tech structures)
+
+**Camera Logic:**
+- Focus on battles when they happen
+- Show expansions being taken
+- Alternate between players during downtime
+- Show stats overlays at key moments
+
+---
+
+**This sprint makes the camera director truly intelligent!** 🧠
+
 # Sprint 2.1: Live Camera Director System
 
 **Goal:** Build automated camera director that controls replay playback in real-time  

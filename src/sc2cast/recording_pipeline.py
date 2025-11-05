@@ -103,12 +103,18 @@ class RecordingPipeline:
         """
         print("📋 Parsing replay metadata...")
         
-        # Hardcoded duration for known demo replay (parser has issues with this file)
+        # Hardcoded durations for known replays (parser has issues with these files)
         if "4323200_changeling_Mike" in str(self.replay_path):
             print("   ⚠️  Using hardcoded duration for demo replay")
             self.replay_duration = 310  # 5:10 = 310 seconds
             print(f"   Duration: 5:10 (310s)")
             print(f"   Map: MagannathaAIE_v2")
+            return True
+        elif "4323395_Mike_SpeedlingBot" in str(self.replay_path):
+            print("   ⚠️  Using hardcoded duration for speedling replay")
+            self.replay_duration = 378  # 6:18 = 378 seconds
+            print(f"   Duration: 6:18 (378s)")
+            print(f"   Map: UltraloveAIE_v2")
             return True
         
         try:

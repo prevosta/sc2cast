@@ -2,7 +2,12 @@
 
 import json
 from pathlib import Path
-import sc2reader
+
+# Import our patched loader
+try:
+    from .replay_loader import load_replay_safe
+except ImportError:
+    from replay_loader import load_replay_safe
 
 
 class EventExtractor:
@@ -17,96 +22,141 @@ class EventExtractor:
     def load_replay(self):
         """Load replay file with sc2reader."""
         print(f"📂 Loading replay: {self.replay_path}")
+        
+        # Try load level 3 (has events but avoids unknown event types in level 4)
         try:
-            # Load with full event tracking
-            self.replay = sc2reader.load_replay(
-                self.replay_path,
-                load_level=4,
-                load_map=False
-            )
-            print(f"✅ Replay loaded: {self.replay.game_length}")
-        except (IndexError, AttributeError, KeyError) as e:
-            print(f"⚠️  Full load failed ({e}), trying minimal load...")
-            self.replay = sc2reader.load_replay(
-                self.replay_path,
-                load_level=0,
-                load_map=False
-            )
-            print(f"✅ Replay loaded (minimal): {self.replay.game_length}")
+            self.replay = load_replay_safe(self.replay_path, load_level=3)
+            return
+        except Exception as e:
+            print(f"   ⚠️  Load level 3 failed: {e}")
+        
+        # Fall back to load level 2
+        try:
+            print(f"  Trying load_level=2...")
+            self.replay = load_replay_safe(self.replay_path, load_level=2)
+            return
+        except Exception as e:
+            print(f"   ⚠️  Load level 2 failed: {e}")
+        
+        # Last resort: minimal load
+        print(f"  ⚠️  Using minimal load (0)...")
+        self.replay = load_replay_safe(self.replay_path, load_level=0)
+        print(f"✅ Replay loaded (minimal): {self.replay.game_length}")
     
     def extract_events(self):
         """Extract all game events from replay."""
         if not self.replay:
             raise ValueError("Replay not loaded. Call load_replay() first.")
         
-        print(f"🔍 Extracting events from {len(self.replay.events)} replay events...")
+        # Build unit registry from UnitBornEvents
+        unit_registry = {}  # Maps unit_id -> unit_type_name
         
+        # First pass: register all units
         for event in self.replay.events:
-            event_data = self._process_event(event)
+            if type(event).__name__ == "UnitBornEvent":
+                unit_id = getattr(event, 'unit_id', None)
+                unit_type = getattr(event, 'unit_type_name', None)
+                if unit_id and unit_type:
+                    unit_registry[unit_id] = unit_type
+        
+        print(f"🔍 Built unit registry with {len(unit_registry)} units")
+        print(f"🔍 Processing {len(self.replay.events)} events...")
+        
+        # Second pass: extract events with unit type names
+        for event in self.replay.events:
+            event_data = self._process_event(event, unit_registry)
             if event_data:
                 self.events.append(event_data)
         
         print(f"✅ Extracted {len(self.events)} relevant events")
     
-    def _process_event(self, event):
+    def _process_event(self, event, unit_registry):
         """Process individual event and extract relevant data."""
         event_type = type(event).__name__
         
+        # Extract location if available
+        location = None
+        if hasattr(event, 'location') and event.location:
+            location = {"x": event.location[0], "y": event.location[1]}
+        elif hasattr(event, 'x') and hasattr(event, 'y'):
+            location = {"x": event.x, "y": event.y}
+        
         # Track unit births (buildings, units trained)
         if event_type == "UnitBornEvent":
+            unit_name = getattr(event, 'unit_type_name', 'Unknown')
             return {
                 "timestamp": event.second,
                 "type": "unit_born",
-                "unit_name": getattr(event, 'unit_type_name', 'Unknown'),
+                "unit_name": unit_name,
                 "player": getattr(event, 'control_pid', 0),
-                "priority": self._calculate_priority("unit_born", event)
+                "priority": self._calculate_priority("unit_born", event, unit_name),
+                "location": location
             }
         
-        # Track unit deaths (battles, losses)
+        # Track unit deaths (battles, losses) - use unit registry for names
         elif event_type == "UnitDiedEvent":
+            unit_id = getattr(event, 'unit_id', None)
+            unit_name = unit_registry.get(unit_id, 'Unknown')
+            
             return {
                 "timestamp": event.second,
                 "type": "unit_died",
-                "unit_name": getattr(event, 'unit_type_name', 'Unknown'),
+                "unit_name": unit_name,
                 "player": getattr(event, 'killer_pid', 0),
-                "priority": self._calculate_priority("unit_died", event)
+                "priority": self._calculate_priority("unit_died", event, unit_name),
+                "location": location
             }
         
-        # Track upgrades
+        # Track upgrades (no location data typically)
         elif event_type == "UpgradeCompleteEvent":
+            upgrade_name = getattr(event, 'upgrade_type_name', 'Unknown')
             return {
                 "timestamp": event.second,
                 "type": "upgrade_complete",
-                "upgrade_name": getattr(event, 'upgrade_type_name', 'Unknown'),
+                "upgrade_name": upgrade_name,
                 "player": getattr(event, 'pid', 0),
-                "priority": "medium"
+                "priority": self._calculate_priority("upgrade_complete", event, upgrade_name),
+                "location": None  # Upgrades don't have location
             }
         
         return None
     
-    def _calculate_priority(self, event_type, event):
+    def _calculate_priority(self, event_type, event, unit_or_upgrade_name):
         """Calculate event priority for camera direction."""
+        name = unit_or_upgrade_name.lower()
+        
         if event_type == "unit_born":
-            unit = getattr(event, 'unit_type_name', '').lower()
             # High priority for expansions and tech buildings
-            if 'hatchery' in unit or 'nexus' in unit or 'command' in unit:
+            if 'hatchery' in name or 'nexus' in name or 'command' in name or 'orbital' in name or 'lair' in name or 'hive' in name:
                 return "high"
-            if 'spire' in unit or 'fleet' in unit or 'stargate' in unit:
+            if 'spire' in name or 'fleet' in name or 'stargate' in name or 'robo' in name:
                 return "high"
             # Medium for production buildings
-            if 'gateway' in unit or 'barracks' in unit or 'factory' in unit:
+            if 'gateway' in name or 'barracks' in name or 'factory' in name or 'starport' in name:
                 return "medium"
+            # Low for everything else (workers, minerals, etc.)
             return "low"
         
         elif event_type == "unit_died":
-            unit = getattr(event, 'unit_type_name', '').lower()
             # High priority for building/expensive unit deaths
-            if 'hatchery' in unit or 'nexus' in unit or 'command' in unit:
+            if 'hatchery' in name or 'nexus' in name or 'command' in name or 'orbital' in name:
                 return "high"
-            if 'carrier' in unit or 'battlecruiser' in unit or 'mothership' in unit:
+            if 'carrier' in name or 'battlecruiser' in name or 'mothership' in name:
+                return "high"
+            if 'colossus' in name or 'thor' in name or 'ultralisk' in name or 'broodlord' in name:
                 return "high"
             # Medium for army units
-            if any(x in unit for x in ['stalker', 'marine', 'zergling', 'roach']):
+            if any(x in name for x in ['stalker', 'marine', 'zergling', 'roach', 'hydralisk', 'baneling']):
+                return "medium"
+            # Low for workers, minerals, etc.
+            return "low"
+        
+        elif event_type == "upgrade_complete":
+            # Filter out spray decals
+            if 'spray' in name:
+                return "low"
+            # High for critical upgrades
+            if any(x in name for x in ['speed', 'attack', 'armor', 'range']):
                 return "medium"
             return "low"
         
@@ -149,11 +199,16 @@ class EventExtractor:
 
 def main():
     """Extract events from demo replay."""
-    replay_path = Path("replays/4323200_changeling_Mike_MagannathaAIE_v2.SC2Replay")
+    # Test with the new replay
+    replay_path = Path("replays/4323395_Mike_SpeedlingBot_UltraloveAIE_v2.SC2Replay")
     
     if not replay_path.exists():
         print(f"❌ Replay file not found: {replay_path}")
-        return
+        # Fall back to old replay
+        replay_path = Path("replays/4323200_changeling_Mike_MagannathaAIE_v2.SC2Replay")
+        if not replay_path.exists():
+            print(f"❌ No replays found!")
+            return
     
     # Extract events
     extractor = EventExtractor(replay_path)
