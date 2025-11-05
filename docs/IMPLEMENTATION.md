@@ -7,12 +7,13 @@
 ## 🎯 Current Status
 
 **Phase:** Phase 1 - Proof of Concept  
-**Sprint:** 1.2 Starting (Basic Replay Processing)  
+**Sprint:** 1.3 Starting (Event Extraction)  
 **Started:** November 5, 2025  
-**Progress:** 1/4 Phase 1 sprints complete (25%)
+**Progress:** 2/4 Phase 1 sprints complete (50%)
 
 ### Completed
 - ✅ Sprint 1.1: Windows environment setup (Python 3.12.7, Poetry 1.8.5, SC2 verified)
+- ✅ Sprint 1.2: Basic replay parsing (sc2reader working, JSON output created)
 
 ### Architecture Decision
 - ❌ **REMOVED:** Docker + Linux containers (replay playback blocked by headless client)
@@ -25,7 +26,7 @@
 4. **Development Speed:** Faster iteration, easier debugging
 
 ### Next
-- Sprint 1.2: Basic Replay Processing (parse demo replay, extract metadata)
+- Sprint 1.3: Event Extraction (identify key moments in replay)
 
 ---
 
