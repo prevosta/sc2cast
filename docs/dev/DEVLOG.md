@@ -49,6 +49,13 @@
 - Fixed QUICK_START.md: Replaced API references with local alternatives (Ollama, Coqui)
 - Updated WORKFLOW.md: Added file creation discipline rules (minimize new files)
 - Cleaned up: Removed docker-compose.yml version warning
+- **Documentation simplification**: Consolidated 10 design docs → 3 essential docs
+  - Created: `TECHNICAL.md` (replaces 5 docs: TECHNICAL_DEEP_DIVE, ARCHITECTURE, ZERO_BUDGET_APPROACH, CODE_EXAMPLES, PROJECT_OVERVIEW)
+  - Created: `IMPLEMENTATION.md` (replaces 2 docs: IMPLEMENTATION_PLAN, PROJECT_STATUS)
+  - Created: `FAQ.md` (simplified from FAQ_TECHNICAL_PANEL)
+  - Deleted: `docs/design/` folder (10 redundant files removed)
+  - Updated: `README.md` to reference new 3-doc structure
+  - Updated: `WORKFLOW.md` with strict anti-bloat rules
 
 ### Next Steps:
 - Complete build verification

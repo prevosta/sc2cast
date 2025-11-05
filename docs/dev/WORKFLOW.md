@@ -1,117 +1,232 @@
-# Development Workflow Guide
+# Development Workflow# Development Workflow Guide
 
-## 🎯 How to Work With Me Effectively
 
-### Before Each Sprint
 
-1. **Check CURRENT_SPRINT.md** - This is the ONLY file that matters
-2. I will ONLY work on tasks listed in CURRENT_SPRINT.md
-3. Each sprint produces 2-5 small, working files maximum
+## 🎯 Core Principle: SIMPLICITY## 🎯 How to Work With Me Effectively
 
-### During Sprint
 
-**Your role:**
+
+**Everything must be minimal:**### Before Each Sprint
+
+- Minimal code per task
+
+- Minimal files (6 docs maximum)1. **Check CURRENT_SPRINT.md** - This is the ONLY file that matters
+
+- Minimal documentation (no redundancy)2. I will ONLY work on tasks listed in CURRENT_SPRINT.md
+
+- One source of truth per concept3. Each sprint produces 2-5 small, working files maximum
+
+
+
+---### During Sprint
+
+
+
+## 📋 File Structure (Final)**Your role:**
+
 - Give me ONE task at a time: "Do task 1", "Do task 2"
-- Test each deliverable before moving on
-- Update checkboxes in CURRENT_SPRINT.md as we complete tasks
 
-**My role:**
-- Create minimal, working code for that specific task
-- No "over-engineering" or "future-proofing"
-- No code that isn't needed for current sprint goal
+### Code & Config- Test each deliverable before moving on
 
-### Prompting Guidelines
+```- Update checkboxes in CURRENT_SPRINT.md as we complete tasks
 
-#### ✅ GOOD Prompts (Specific, One Task)
-```
-"Create the Dockerfile"
-"Add the demo replay to the project"
-"Fix the Docker build error"
-"Complete task 3 in CURRENT_SPRINT.md"
-"Test if nvidia-smi works in container"
+src/              # Source code only
+
+tests/            # Tests only**My role:**
+
+config/           # Config files only- Create minimal, working code for that specific task
+
+Dockerfile- No "over-engineering" or "future-proofing"
+
+docker-compose.yml- No code that isn't needed for current sprint goal
+
+requirements.txt
+
+```### Prompting Guidelines
+
+
+
+### Documentation (6 Files Maximum)#### ✅ GOOD Prompts (Specific, One Task)
+
+``````
+
+README.md                    # Entry point + quick start"Create the Dockerfile"
+
+docs/TECHNICAL.md           # All technical info (architecture, setup, examples)"Add the demo replay to the project"
+
+docs/IMPLEMENTATION.md      # All planning (timeline, status, milestones)"Fix the Docker build error"
+
+docs/FAQ.md                 # Questions & answers"Complete task 3 in CURRENT_SPRINT.md"
+
+docs/dev/CURRENT_SPRINT.md  # Active sprint tasks only"Test if nvidia-smi works in container"
+
+docs/dev/DEVLOG.md          # History log (concise)```
+
 ```
 
 #### ❌ BAD Prompts (Too Broad)
-```
+
+**That's it. Never create more docs.**```
+
 "Implement the commentary system"  # Too big!
-"Set everything up"                # Too vague!
+
+---"Set everything up"                # Too vague!
+
 "Create all the infrastructure"    # Too much!
-"Build the pipeline"               # Multiple sprints!
-```
 
-### File Organization (Keep It Simple)
+## 🚫 Documentation Rules"Build the pipeline"               # Multiple sprints!
 
 ```
-sc2cast/
-├── CURRENT_SPRINT.md           # ← THE ONLY FILE THAT MATTERS
-├── README.md                    # Project overview
+
+### NEVER Create Separate Files For:
+
+- ❌ "Architecture" vs "Overview" vs "Deep Dive" → ONE `TECHNICAL.md`### File Organization (Keep It Simple)
+
+- ❌ "Plan" vs "Status" vs "Timeline" → ONE `IMPLEMENTATION.md`
+
+- ❌ "Quick Start" separate → Put in `README.md````
+
+- ❌ "Code Examples" separate → Put in `TECHNICAL.md`sc2cast/
+
+- ❌ "Consistency Reports" → Just fix the actual files├── CURRENT_SPRINT.md           # ← THE ONLY FILE THAT MATTERS
+
+- ❌ ANY "analysis" or "summary" files → Don't create them├── README.md                    # Project overview
+
 ├── docs/                        # All design docs (reference only)
-│   └── *.md
+
+### Rule: One Concept = One Section (Not One File)│   └── *.md
+
 ├── Dockerfile                   # Sprint 1.1
-├── docker-compose.yml          # Sprint 1.1
+
+---├── docker-compose.yml          # Sprint 1.1
+
 └── src/                        # Code (starts in Sprint 1.2+)
-    └── (empty for now)
+
+## 🔄 Handling Changes    └── (empty for now)
+
 ```
 
-## 🔄 Sprint Workflow
+### When a Decision Changes:
 
-### Step 1: Start New Sprint
-```
+1. **Search** all docs for mentions (grep)## 🔄 Sprint Workflow
+
+2. **Update** all at once
+
+3. **Log** in DEVLOG.md (one line)### Step 1: Start New Sprint
+
+4. Done.```
+
 You: "Start Sprint 1.1"
-Me: Updates CURRENT_SPRINT.md with tasks
-```
 
-### Step 2: Execute Tasks
-```
+### Adding New Features:Me: Updates CURRENT_SPRINT.md with tasks
+
+1. Update `CURRENT_SPRINT.md` (current work)```
+
+2. Write code in `src/`
+
+3. Update `TECHNICAL.md` if architecture changes### Step 2: Execute Tasks
+
+4. Log in `DEVLOG.md` (one line)```
+
 You: "Do task 1"
-Me: Creates Dockerfile (minimal, working)
 
-You: "Test it - docker build works!"
+**Update everything immediately or don't update at all. Never let docs drift.**Me: Creates Dockerfile (minimal, working)
+
+
+
+---You: "Test it - docker build works!"
+
 You: "Do task 2"
-Me: Adds SC2 installation to Dockerfile
+
+## 📏 Quality StandardsMe: Adds SC2 installation to Dockerfile
+
 ```
 
-### Step 3: Sprint Complete
+1. **Minimal Code** - Only what THIS task needs
+
+2. **Working Increments** - Every task produces something testable### Step 3: Sprint Complete
+
+3. **No Speculation** - Don't code for future features```
+
+4. **Obvious Names** - Self-documenting codeYou: "Mark Sprint 1.1 complete"
+
+5. **One Source of Truth** - Each fact exists in ONE place onlyMe: Updates CURRENT_SPRINT.md to Sprint 1.2
+
 ```
-You: "Mark Sprint 1.1 complete"
-Me: Updates CURRENT_SPRINT.md to Sprint 1.2
-```
+
+---
 
 ## 📏 Quality Principles
 
+## 🎯 Sprint Process
+
 1. **Minimal Viable Code** - Only what's needed for THIS task
-2. **Working Increments** - Each task produces testable output
-3. **No Speculation** - Don't code for future features
-4. **Obvious Naming** - `parse_replay()` not `process_data()`
+
+```2. **Working Increments** - Each task produces testable output
+
+User: "Start Sprint 1.2"3. **No Speculation** - Don't code for future features
+
+→ Update CURRENT_SPRINT.md (3-5 tasks)4. **Obvious Naming** - `parse_replay()` not `process_data()`
+
 5. **Fail Fast** - Basic error handling only, let things crash
 
-## 🚫 File Creation Discipline
+User: "Do task 1"
 
-**CRITICAL: Minimize new files!**
+→ Write minimal code## 🚫 File Creation Discipline
 
-### Before Creating ANY New File, Ask:
-1. ❓ Can this go in an existing file?
-2. ❓ Does this NEED to exist permanently?
-3. ❓ Will the user reference this file regularly?
+→ Test it
 
-### ✅ GOOD Reasons to Create a File:
-- Core code files (required for functionality)
-- Essential config files (Dockerfile, docker-compose.yml)
-- Primary docs (README, DEVLOG, WORKFLOW, CURRENT_SPRINT)
+→ Mark task complete**CRITICAL: Minimize new files!**
 
-### ❌ BAD Reasons to Create a File:
+
+
+User: "Do task 2"### Before Creating ANY New File, Ask:
+
+→ Write minimal code1. ❓ Can this go in an existing file?
+
+→ Test it2. ❓ Does this NEED to exist permanently?
+
+→ Mark task complete3. ❓ Will the user reference this file regularly?
+
+
+
+User: "Sprint done"### ✅ GOOD Reasons to Create a File:
+
+→ Update DEVLOG.md (2 lines)- Core code files (required for functionality)
+
+→ Start next sprint- Essential config files (Dockerfile, docker-compose.yml)
+
+```- Primary docs (README, DEVLOG, WORKFLOW, CURRENT_SPRINT)
+
+
+
+**One task at a time. No exceptions.**### ❌ BAD Reasons to Create a File:
+
 - "Consistency reports" ← Update the actual files instead!
-- "Status summaries" ← Use DEVLOG.md
+
+---- "Status summaries" ← Use DEVLOG.md
+
 - "Analysis documents" ← Mention in conversation, don't save
-- "Temporary notes" ← Never create these
+
+## 📊 Tracking- "Temporary notes" ← Never create these
+
 - "Planning files" ← Use CURRENT_SPRINT.md
 
-### Rule of Thumb:
+**Current Work:** CURRENT_SPRINT.md (checkboxes)
+
+**History:** DEVLOG.md (2-3 lines per sprint)### Rule of Thumb:
+
 **If it's not code, config, or a core workflow doc → DON'T CREATE IT**
+
+No separate tracking files. No status reports.
 
 When in doubt: Update existing files or just tell the user verbally.
 
+---
+
 ## 🔄 Documentation Consistency
+
+**Keep it simple. Keep it clean. Keep moving.** 🚀
 
 **CRITICAL: Keep all docs aligned when decisions change!**
 
