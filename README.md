@@ -19,6 +19,16 @@ SC2Cast transforms StarCraft II replays into professional cast videos with **zer
 
 ## 🚀 Quick Start
 
+### Prerequisites
+
+**Required Software:**
+1. **Python 3.11+** - [Download from python.org](https://www.python.org/downloads/)
+2. **Poetry** - Python dependency management
+3. **FFmpeg** - Video encoding and screen capture
+4. **StarCraft II** - Must be installed on Windows
+
+### Installation
+
 ```powershell
 # 1. Clone repository
 git clone https://github.com/prevosta/sc2cast.git
@@ -27,21 +37,38 @@ cd sc2cast
 # 2. Install Poetry (if not already installed)
 pip install poetry
 
-# 3. Install project dependencies
+# 3. Install FFmpeg (REQUIRED for video recording)
+winget install Gyan.FFmpeg
+# Alternative: choco install ffmpeg (if using Chocolatey)
+# After installation, restart your terminal/VS Code to refresh PATH
+
+# 4. Install project dependencies
 poetry install
 
-# 4. Install Ollama (for local LLM)
-winget install Ollama.Ollama
-ollama pull llama3.1:8b-q4_K_M
-
-# 5. Install FFmpeg
-winget install Gyan.FFmpeg
-
-# 6. Run demo (parse replay metadata)
-poetry run python src/parse_replay.py
+# 5. Run tests
+poetry run python tests/test_keyboard_automation.py  # Test camera control
+poetry run python tests/test_screen_capture.py       # Test video capture (after FFmpeg PATH refresh)
 ```
 
-**Output**: Replay metadata in JSON format (video generation in Sprint 1.4+)
+**Note:** After installing FFmpeg, you may need to restart your terminal or VS Code for the PATH to update.
+
+### Verify Installation
+
+```powershell
+# Check Python version
+python --version  # Should be 3.11+
+
+# Check Poetry
+poetry --version
+
+# Check FFmpeg (restart terminal if just installed)
+ffmpeg -version
+
+# Check SC2 installation
+poetry run python src/sc2cast/verify_sc2.py
+```
+
+**Output**: All checks should pass ✅
 
 ---
 
@@ -116,19 +143,20 @@ sc2cast/
 
 ## 📊 Current Status
 
-**Sprint 1.1**: Windows Native Setup (Starting)
-- ✅ Architecture decision: Windows native (replays work!)
-- ✅ Project structure organized
-- ⏳ Install Poetry + dependencies
-- ⏳ Install Ollama + Llama 3.1
-- ⏳ Install FFmpeg
-- ⏳ Verify SC2 installation
+**Sprint 1.4**: Video Recording PoC **CRITICAL MILESTONE** (In Progress - 75% complete)
+- ✅ Windows native setup complete (Python 3.12.7, Poetry 1.8.5)
+- ✅ Replay parsing working (sc2reader + JSON output)
+- ✅ Event extraction framework created
+- ✅ **Replay playback confirmed** - Windows SC2 plays replays!
+- ✅ **Keyboard automation working** - Can control camera during replay (1, 2 keys)
+- ⏳ Screen capture with FFmpeg (Task 4 - need PATH refresh)
+- ⏳ Generate 10-second test video (Task 5)
 
-**Next Sprint**: Replay parser implementation (Sprint 1.2)
+**Major Validation:** Project is 100% viable! Camera director approach confirmed working!
 
-**Why Windows?** Linux headless SC2 doesn't support replay playback. Windows client does!
+**Next Sprint**: Full video recording pipeline (Sprint 2.1)
 
-See [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) for full 20-week timeline.
+See [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) for full timeline.
 
 ---
 

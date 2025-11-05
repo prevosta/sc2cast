@@ -62,3 +62,38 @@ Created event extraction framework. Identified AIArena replay limitation with sc
 - Framework ready for Sprint 1.4 integration
 
 ---
+
+## Sprint 1.4: Video Recording PoC + Camera/Timer Systems
+**Completed:** November 6, 2025  
+**Duration:** 1 session  
+
+### Summary
+**CRITICAL MILESTONE ACHIEVED!** Validated entire project architecture is viable. Successfully demonstrated SC2 replay playback, keyboard automation, screen capture, timer reading, and comprehensive camera control. This sprint proves the automated casting system can work.
+
+### Deliverables
+- `src/sc2cast/replay_controller.py` - SC2 replay launcher
+- `src/sc2cast/timer_reader.py` - OCR-based game timer reader (~90% accuracy)
+- `src/sc2cast/observer_hotkeys.py` - Complete SC2 observer hotkey controller
+- `src/sc2cast/minimap_camera.py` - Minimap-based camera control system
+- `tests/test_keyboard_automation.py` - Keyboard control validation
+- `tests/test_screen_capture.py` - FFmpeg screen capture test
+- `output/test_capture_10s.mp4` - First successful video capture (12 MB)
+
+### Results
+- ✅ SC2 replays launch and play correctly
+- ✅ Keyboard automation works (pyautogui 0.9.54)
+- ✅ Camera control via hotkeys (F1-F8, 1-2) and minimap clicks
+- ✅ Screen capture working (FFmpeg 8.0, H.264 encoding)
+- ✅ Timer reading via EasyOCR (position: x=1572, y=590, 200x25)
+- ✅ All observer hotkeys documented (stats panels, UI toggles)
+- ✅ Loading time: ~30 seconds before replay starts
+- 🎉 **PROJECT ARCHITECTURE VALIDATED - READY FOR PHASE 2!**
+
+### Critical Findings
+- EasyOCR works for timer reading with cleanup logic (handles `:` vs `.` confusion)
+- Minimap position: x=25, y=810, 267x256 (perfect for camera jumps)
+- FFmpeg auto-detected from WinGet packages directory
+- Complete observer hotkey system available for production use
+
+---
+

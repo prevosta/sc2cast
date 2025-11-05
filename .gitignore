@@ -42,9 +42,9 @@ env/
 logs/
 
 # SC2Cast specific
-output/                    # Generated videos
-replays/**/*.SC2Replay     # Don't commit replay files
-!replays/demo/*.SC2Replay  # Except demo files in demo folder
+output/
+replays/**/*.SC2Replay
+!replays/demo/*.SC2Replay
 
 # Docker
 .dockerignore

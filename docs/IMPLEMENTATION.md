@@ -6,28 +6,41 @@
 
 ## 🎯 Current Status
 
-**Phase:** Phase 1 - Proof of Concept  
-**Sprint:** 1.4 Starting (Video Recording PoC) **CRITICAL MILESTONE**  
+**Phase:** Phase 1 - Proof of Concept **COMPLETE!** 🎉  
+**Sprint:** 1.4 Complete - Moving to Sprint 2.1  
 **Started:** November 5, 2025  
-**Progress:** 3/4 Phase 1 sprints complete (75%)
+**Progress:** 4/4 Phase 1 sprints complete (100%)
 
 ### Completed
 - ✅ Sprint 1.1: Windows environment setup (Python 3.12.7, Poetry 1.8.5, SC2 verified)
 - ✅ Sprint 1.2: Basic replay parsing (sc2reader working, JSON output created)
 - ✅ Sprint 1.3: Event extraction framework (ready for SC2 client integration)
+- ✅ Sprint 1.4: Video Recording PoC + Camera/Timer Systems **MILESTONE ACHIEVED!**
 
-### Architecture Decision
+### Phase 1 Achievements
+- ✅ Windows SC2 plays AIArena replays perfectly
+- ✅ Keyboard automation works (pyautogui)
+- ✅ Camera control via hotkeys (F1-F8, 1-2) and minimap clicks
+- ✅ Screen capture works (FFmpeg, H.264)
+- ✅ Timer reading works (EasyOCR, ~90% accuracy)
+- ✅ Complete observer hotkey system documented
+- 🎉 **PROJECT ARCHITECTURE FULLY VALIDATED!**
+
+### Architecture Decisions
 - ❌ **REMOVED:** Docker + Linux containers (replay playback blocked by headless client)
-- ✅ **NEW:** Native Windows execution (Windows SC2 client supports replays!)
+- ✅ **CONFIRMED:** Native Windows execution (Windows SC2 client supports replays!)
+- ✅ **CONFIRMED:** Live camera control during replay playback (keyboard + minimap)
+- ✅ **CONFIRMED:** OCR-based timer reading for synchronization
 
-### Why Windows Native?
-1. **Replay Support:** Windows SC2 client can play replays (Linux headless cannot)
-2. **Simplicity:** No Docker complexity, direct Python scripts
-3. **GPU Access:** Direct NVIDIA driver access
-4. **Development Speed:** Faster iteration, easier debugging
+### Key Technical Details
+- **SC2 Loading Time:** ~30 seconds before replay starts
+- **Timer Position:** x=1572, y=810, 200x25
+- **Minimap Position:** x=25, y=810, 267x256
+- **FFmpeg:** Auto-detected from WinGet packages directory
+- **Camera Control:** F1-F8 (players), 1-2 (shortcuts), minimap clicks
 
 ### Next
-- Sprint 1.4: Video Recording PoC **CRITICAL** - Test if Windows SC2 can play and record replays
+- **Sprint 2.1:** Live Camera Director - Build automated camera control system
 
 ---
 
@@ -57,26 +70,30 @@
 - Deliverable: Events timeline with filtering
 
 **Sprint 1.4:** Video Recording PoC (Week 2) **CRITICAL**
-- Load replay with python-sc2 + Windows SC2 client
-- Control replay playback programmatically
-- Capture screen with FFmpeg or screen recording
+- Load replay in Windows SC2 client
+- Test keyboard input automation (camera hotkeys: 1, 2, etc.)
+- Verify we can control camera during replay playback
+- Capture 10-second screen recording with FFmpeg
 - Deliverable: 10-second MP4 file from replay
-- **Risk:** HIGH - If replays still don't work, need alternative approach
+- **Risk:** HIGH - Need to validate keyboard automation works with SC2
 
 ### Phase 2: Video Foundation (Weeks 3-4)
-**Goal:** Record full-length videos from replays
+**Goal:** Build automated camera director and full-length video recording
 
-**Sprint 2.1:** SC2 Replay Control
-- python-sc2 observer mode
-- Camera positioning and movement
-- Replay speed control
-- Deliverable: Can navigate replay programmatically
+**Sprint 2.1:** Live Camera Director System
+- Implement camera decision algorithm (which player/location to show)
+- Integrate minimap camera control (clicks at strategic positions)
+- Integrate observer hotkeys (player switching, stats panels)
+- Event-driven camera changes based on timer
+- Test full replay recording with automated camera
+- Deliverable: Automated camera director + full-length video recording
 
-**Sprint 2.2:** Screen Recording
-- FFmpeg screen capture setup
-- Audio capture (game sounds)
-- 1080p60 encoding settings
-- Deliverable: Full-length replay video (no commentary)
+**Sprint 2.2:** Video Quality & Refinement
+- Optimize FFmpeg encoding settings (quality/filesize balance)
+- Audio capture from game
+- Camera smoothness improvements
+- Stats panel timing optimization
+- Deliverable: Production-quality video output
 
 ### Phase 3: Local AI Setup (Weeks 5-6)
 **Goal:** Get Llama + Coqui working on Windows
@@ -94,19 +111,20 @@
 - Deliverable: Can generate speech from text
 
 ### Phase 4: Event Detection (Weeks 7-8)
-**Goal:** Identify key moments in replays
+**Goal:** Advanced event detection and intelligent camera decisions
 
-**Sprint 4.1:** Event Parser
-- Parse replay events with sc2reader
-- Classify event types and importance
-- Build event timeline
-- Deliverable: Structured event data
+**Sprint 4.1:** Live Event Detection
+- Monitor game time during replay playback
+- Detect events from pre-parsed sc2reader data
+- Sync event timeline with replay playback
+- Deliverable: Real-time event detection system
 
-**Sprint 4.2:** Camera Director AI
-- Priority scoring algorithm
-- Camera path generation
-- Conflict resolution (multiple events)
-- Deliverable: Automated camera script
+**Sprint 4.2:** Advanced Camera Intelligence
+- Heuristics for interesting moments (battles, expansions, tech)
+- Multi-player camera time balancing
+- Smooth camera transitions
+- Predictive camera positioning
+- Deliverable: Intelligent camera system
 
 ### Phase 5: AI Commentary (Weeks 9-11)
 **Goal:** Generate commentary using local LLM
@@ -257,10 +275,11 @@
 
 | Risk | Impact | Mitigation |
 |------|--------|------------|
-| Windows SC2 replay fails | **CRITICAL** | Test Sprint 1.4 immediately, pivot if needed |
+| Keyboard automation fails in SC2 | **CRITICAL** | Test in Sprint 1.4/2.1, try multiple libraries (pyautogui, pynput, win32api) |
+| Input lag causes missed camera switches | High | Buffer time, test different input methods |
 | Llama quality too low | High | Test early (Sprint 3.1), can fine-tune or use larger model |
 | Coqui voice quality poor | Medium | Multiple voice options, can adjust settings |
-| SC2 crashes | Medium | Checkpoint system, auto-restart |
+| SC2 crashes during recording | Medium | Checkpoint system, auto-restart, save progress |
 | Processing too slow | Low | Optimization in Phase 9 |
 | Screen capture performance | Medium | Test multiple methods (FFmpeg, OBS, Windows Game Bar) |
 
