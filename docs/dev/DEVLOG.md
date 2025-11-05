@@ -43,3 +43,22 @@ Created replay parser using sc2reader. Successfully loads and parses AIArena rep
 - Note: AIArena replays have limited metadata; full event extraction will use SC2 client directly
 
 ---
+
+## Sprint 1.3: Event Extraction
+**Completed:** November 5, 2025  
+**Duration:** 1 session  
+
+### Summary
+Created event extraction framework. Identified AIArena replay limitation with sc2reader - detailed events not available. Decision made to use SC2 client API for real-time event detection in Sprint 1.4+.
+
+### Deliverables
+- `src/sc2cast/event_extractor.py` - Event extraction framework with priority categorization
+- `output/replay_events.json` - JSON structure (ready for live SC2 client data)
+
+### Results
+- Event extractor framework complete
+- Priority categorization system implemented (high/medium/low)
+- Identified path forward: Use SC2 client for live event detection
+- Framework ready for Sprint 1.4 integration
+
+---

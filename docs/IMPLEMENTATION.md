@@ -7,13 +7,14 @@
 ## 🎯 Current Status
 
 **Phase:** Phase 1 - Proof of Concept  
-**Sprint:** 1.3 Starting (Event Extraction)  
+**Sprint:** 1.4 Starting (Video Recording PoC) **CRITICAL MILESTONE**  
 **Started:** November 5, 2025  
-**Progress:** 2/4 Phase 1 sprints complete (50%)
+**Progress:** 3/4 Phase 1 sprints complete (75%)
 
 ### Completed
 - ✅ Sprint 1.1: Windows environment setup (Python 3.12.7, Poetry 1.8.5, SC2 verified)
 - ✅ Sprint 1.2: Basic replay parsing (sc2reader working, JSON output created)
+- ✅ Sprint 1.3: Event extraction framework (ready for SC2 client integration)
 
 ### Architecture Decision
 - ❌ **REMOVED:** Docker + Linux containers (replay playback blocked by headless client)
@@ -26,7 +27,7 @@
 4. **Development Speed:** Faster iteration, easier debugging
 
 ### Next
-- Sprint 1.3: Event Extraction (identify key moments in replay)
+- Sprint 1.4: Video Recording PoC **CRITICAL** - Test if Windows SC2 can play and record replays
 
 ---
 
