@@ -48,15 +48,27 @@ class ObserverHotkeys:
     
     def switch_to_player(self, player_num: int):
         """
-        Switch camera to player perspective (F1-F8).
+        Switch camera to player perspective.
+        
+        Uses number keys (1-2) for observer hotkeys (camera locations).
+        In SC2 observer mode, 1 and 2 are preset camera hotkeys.
         
         Args:
-            player_num: Player number (1-8)
+            player_num: Player number (1-2 for camera hotkeys, 1-8 for F-keys)
         """
         if 1 <= player_num <= 8:
-            pyautogui.press(f'f{player_num}')
+            # Try both methods: number keys first (for observer camera hotkeys)
+            # then F-keys (for player perspective)
+            if player_num <= 2:
+                # Use number keys 1-2 (observer camera locations)
+                pyautogui.press(str(player_num))
+                print(f"📹 Switched to camera location {player_num} (key: {player_num})")
+            else:
+                # Use F-keys for players 3-8
+                pyautogui.press(f'f{player_num}')
+                print(f"📹 Switched to Player {player_num} (key: F{player_num})")
+            
             self.current_player = player_num
-            print(f"📹 Switched to Player {player_num}")
     
     def show_pov(self):
         """Show POV (Point of View) of current player."""
