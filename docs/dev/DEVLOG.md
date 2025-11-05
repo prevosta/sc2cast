@@ -75,6 +75,51 @@
 
 ---
 
+## Sprint 1.2: Replay Parser Implementation
+**Goal:** Parse demo replay and extract basic metadata  
+**Dates:** Nov 5, 2025 - Complete
+
+### Actions Taken:
+1. Added `sc2reader` to Dockerfile
+2. Created `src/parse_replay.py` (143 lines):
+   - Parses SC2 replay files
+   - Extracts players, map, duration
+   - Outputs clean JSON
+   - Robust error handling
+3. **Critical fix**: Monkey-patched sc2reader to handle AI Arena replays
+   - AI Arena replays have empty `cache_handles` array
+   - Original sc2reader crashes on `details["cache_handles"][0]`
+   - Patched to fallback to "unknown" region when empty
+4. Added `/workspace/replays` volume mount to docker-compose
+5. Moved map file to `replays/maps/`
+6. Updated `docs/TECHNICAL.md` with parser documentation
+
+### Files Created:
+- `src/parse_replay.py` (143 lines)
+
+### Files Modified:
+- `Dockerfile` (added sc2reader)
+- `docker-compose.yml` (added replays mount)
+- `docs/TECHNICAL.md` (added parser docs)
+- `replays/maps/MagannathaAIE_v2.SC2Map` (moved from root)
+
+### Status: ✅ Sprint 1.2 COMPLETE!
+
+**Results:**
+- Successfully parses AI Arena replays
+- Extracts: filename, map, duration, player names
+- Clean JSON output with error handling
+- Exit codes: 0=success, 1=error
+
+**Limitations:**
+- Race shows "Unknown" (requires game events parsing)
+- Result shows "Unknown" (requires game events parsing)
+- These will be addressed in Sprint 1.3+
+
+**Duration:** ~3 hours (including sc2reader debugging)
+
+---
+
 ## Sprint 1.2: TBD
 *Not started yet*
 

@@ -100,6 +100,46 @@ docker compose run sc2cast python -m src.main --replay replays/demo/*.SC2Replay
 
 ## 💻 Code Examples
 
+### Replay Parser (Sprint 1.2)
+
+**Extract basic metadata from SC2 replay files:**
+
+```powershell
+docker compose run --rm sc2cast python3 src/parse_replay.py
+```
+
+**Output Format (JSON):**
+```json
+{
+  "filename": "4323200_changeling_Mike_MagannathaAIE_v2.SC2Replay",
+  "map": "Magannatha AIE",
+  "duration_seconds": 568,
+  "duration_human": "9:28",
+  "players": [
+    {
+      "name": "changeling",
+      "race": "Unknown",
+      "result": "Unknown"
+    },
+    {
+      "name": "Mike",
+      "race": "Unknown",
+      "result": "Unknown"
+    }
+  ]
+}
+```
+
+**Notes:**
+- Parses replays from `replays/demo/` folder
+- Handles AI Arena replays (empty cache_handles)
+- Race/result need game events (future sprint)
+- Exit code: 0=success, 1=error
+
+---
+
+## 🎥 LLM Integration (Sprint 3.x)
+
 ### Local LLM Client
 ```python
 import requests

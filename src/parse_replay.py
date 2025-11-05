@@ -100,21 +100,54 @@ def main():
     
     # Find replay file in demo folder
     replay_dir = Path("/workspace/replays/demo")
+    
+    # Check if directory exists
+    if not replay_dir.exists():
+        print(f"ERROR: Replay directory not found: {replay_dir}", file=sys.stderr)
+        print("Make sure /workspace/replays/demo is mounted in Docker", file=sys.stderr)
+        sys.exit(1)
+    
+    # Find replay files
     replay_files = list(replay_dir.glob("*.SC2Replay"))
     
     if not replay_files:
-        print("ERROR: No replay files found in /workspace/replays/demo/", file=sys.stderr)
+        print(f"ERROR: No .SC2Replay files found in {replay_dir}", file=sys.stderr)
+        print("Add replay files to the replays/demo/ folder", file=sys.stderr)
         sys.exit(1)
     
     # Use first replay found
     replay_path = replay_files[0]
     
+    # Check file is readable
+    if not replay_path.is_file():
+        print(f"ERROR: Not a valid file: {replay_path}", file=sys.stderr)
+        sys.exit(1)
+    
+    # Check file size (corrupted replays are usually very small)
+    file_size = replay_path.stat().st_size
+    if file_size < 1024:  # Less than 1KB is suspicious
+        print(f"ERROR: Replay file too small ({file_size} bytes), possibly corrupted", file=sys.stderr)
+        sys.exit(1)
+    
     try:
         metadata = parse_replay(replay_path)
+        
+        # Validate we got some data
+        if not metadata.get('players'):
+            print("WARNING: No players found in replay", file=sys.stderr)
+        
         print(json.dumps(metadata, indent=2))
         sys.exit(0)
+        
+    except FileNotFoundError as e:
+        print(f"ERROR: Replay file not found: {e}", file=sys.stderr)
+        sys.exit(1)
+    except PermissionError as e:
+        print(f"ERROR: Permission denied reading replay: {e}", file=sys.stderr)
+        sys.exit(1)
     except Exception as e:
-        print(f"ERROR: Failed to parse replay: {e}", file=sys.stderr)
+        print(f"ERROR: Failed to parse replay '{replay_path.name}': {e}", file=sys.stderr)
+        print("This replay may be corrupted or from an unsupported SC2 version", file=sys.stderr)
         sys.exit(1)
 
 
