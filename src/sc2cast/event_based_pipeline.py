@@ -101,8 +101,8 @@ class EventBasedPipeline:
         camera_script = []
         for shot in camera_shots:
             camera_script.append({
-                'time_seconds': shot.time_seconds,
-                'shot_type': shot.shot_type.value,
+                'time': shot.time_seconds,  # CameraDirector expects 'time' not 'time_seconds'
+                'type': shot.shot_type.value,
                 'params': shot.params
             })
         

@@ -76,12 +76,21 @@ class ScriptGenerator:
             params={'player': 2}
         ))
     
-    def _process_event(self, event: Dict):
+    def _process_event(self, event):
         """Convert a single event to camera shot(s)."""
-        event_time = event['time_seconds']
-        event_type = event['event_type']
-        location = event.get('location')
-        priority = event.get('priority', 'medium')
+        # Handle both dict and PrioritizedEvent objects
+        if hasattr(event, 'time_seconds'):
+            # PrioritizedEvent object
+            event_time = event.time_seconds
+            event_type = event.event_type
+            location = event.location
+            priority = event.priority
+        else:
+            # Dict format
+            event_time = event['time_seconds']
+            event_type = event['event_type']
+            location = event.get('location')
+            priority = event.get('priority', 'medium')
         
         # Add arrival buffer - move camera before event peaks
         ARRIVAL_BUFFER = 3  # seconds before event
@@ -138,12 +147,19 @@ class ScriptGenerator:
                 }
             ))
     
-    def _add_overview_shots(self, events: List[Dict], replay_duration: int):
+    def _add_overview_shots(self, events, replay_duration: int):
         """Add periodic player overview shots between events."""
         MIN_GAP = 20  # Minimum gap between events to add overview
         
-        # Get event times
-        event_times = sorted([e['time_seconds'] for e in events])
+        # Get event times - handle both dict and object formats
+        event_times = []
+        for e in events:
+            if hasattr(e, 'time_seconds'):
+                event_times.append(e.time_seconds)
+            else:
+                event_times.append(e['time_seconds'])
+        
+        event_times = sorted(event_times)
         
         # Add player alternating shots in gaps
         current_player = 1

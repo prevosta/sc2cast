@@ -123,16 +123,19 @@ class CameraDirector:
             self.hotkeys.switch_to_player(player)
         
         elif shot.shot_type == ShotType.MINIMAP_JUMP:
+            # Check if we have game coordinates (need conversion)
+            game_x = shot.params.get("game_x")
+            game_y = shot.params.get("game_y")
             x = shot.params.get("x")
             y = shot.params.get("y")
-            if x and y:
-                self.minimap.click_minimap_position(x, y)
-            else:
-                # Use game coordinates if provided
-                game_x = shot.params.get("game_x")
-                game_y = shot.params.get("game_y")
-                if game_x and game_y:
-                    self.minimap.move_to_game_position(game_x, game_y)
+            
+            if game_x and game_y:
+                # Game coordinates - convert to minimap pixels
+                self.minimap.move_to_game_position(game_x, game_y)
+            elif x and y:
+                # Assume these are game coordinates too (0-200 range)
+                # Convert to minimap pixels
+                self.minimap.move_to_game_position(x, y)
         
         elif shot.shot_type == ShotType.STAT_PANEL:
             panel_name = shot.params.get("panel", "resources")
