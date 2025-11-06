@@ -4,6 +4,29 @@
 
 ---
 
+## ⚠️ Project Restart: Linux → Windows Native
+
+**Date:** November 3, 2025
+
+### Context
+Initial development attempted to run SC2Cast in a Linux Docker container using the Linux version of StarCraft II. This approach **completely failed** and was abandoned.
+
+### Why Linux Container Failed
+- **SC2 Linux version is deprecated** - Not maintained by Blizzard, stuck on old game version
+- **Replay incompatibility** - Modern replays (especially AIArena format) require current SC2 version
+- **Insurmountable blocker** - Cannot play new replays on old Linux SC2 client
+- **No workaround possible** - Linux SC2 will never be updated
+
+### Decision: Complete Pivot to Windows Native
+- Abandoned all Docker/Linux work
+- **Restarted development from scratch** on Windows with native SC2 installation
+- Windows SC2 is current, maintained, and supports all replay formats
+- Project became viable only after this pivot
+
+**All sprints below reflect the Windows native implementation (fresh start).**
+
+---
+
 ## Sprint 1.1: Windows Environment Setup
 **Completed:** November 5, 2025  
 **Duration:** 1 session  

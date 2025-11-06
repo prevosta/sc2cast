@@ -158,6 +158,79 @@ docs/IMPLEMENTATION.md      # All planning (timeline, status, milestones)
 
 ---
 
+## 📄 README.md Maintenance
+
+**CRITICAL: README.md shows ONLY the current state of the project!**
+
+### What Goes in README.md
+
+✅ **INCLUDE (Current State Only):**
+- What the project does RIGHT NOW
+- Features that are WORKING and TESTED
+- Installation steps for CURRENT version
+- Commands that ACTUALLY WORK
+- Current sprint status (e.g., "Sprint 2.2 complete")
+- Working examples and test commands
+- Current technology stack (only what's implemented)
+
+❌ **NEVER INCLUDE (Future/Past):**
+- Features planned but not implemented
+- "Will do X" or "Coming soon" statements
+- Completed features that were removed
+- Old sprints in detail (that's for DEVLOG.md)
+- Architecture plans not yet built
+- Technologies not yet integrated
+
+### When to Update README.md
+
+**Update README.md when:**
+1. **Sprint completes** - Update "Current Status" section
+2. **New feature works** - Add to features list
+3. **Installation changes** - Update setup instructions
+4. **Commands change** - Update examples
+5. **Stack changes** - Update technology table
+
+### README.md Update Checklist
+
+When completing a sprint, check these sections:
+
+1. **🎯 What is SC2Cast?** → Does it accurately describe what works NOW?
+2. **🚀 Quick Start** → Do all commands actually work? Are dependencies correct?
+3. **📊 Current Status** → Updated to latest completed sprint? Checkmarks accurate (✅/⏳)?
+4. **🏗️ Technology Stack** → Only includes tech actually integrated?
+5. **🎯 Success Criteria** → Only shows metrics we can actually measure?
+
+### Example: Good vs Bad README
+
+**❌ BAD (Future-focused):**
+```markdown
+## Features
+- ✅ Replay parsing
+- ⏳ AI commentary generation (planned)
+- 📅 YouTube upload (coming in Sprint 5)
+```
+
+**✅ GOOD (Current state):**
+```markdown
+## Features
+- ✅ Replay parsing with event extraction
+- ✅ Intelligent camera control
+- ✅ Automated video recording
+
+*See IMPLEMENTATION.md for roadmap*
+```
+
+### Rule of Thumb
+
+> "If a user clones the repo TODAY, will README.md accurately tell them what works?"
+
+- If YES → README is good
+- If NO → Update it immediately
+
+**README.md is the user's first impression. Keep it honest and current!**
+
+---
+
 docs/FAQ.md                 # Questions & answersdocker-compose.yml- No code that isn't needed for current sprint goal
 
 ## 📏 Quality Standards
