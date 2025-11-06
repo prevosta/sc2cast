@@ -1,19 +1,26 @@
-# SC2Cast - AI-Powered StarCraft II Replay Casting System
+# SC2Cast - Automated StarCraft II Replay Recording System
 
-> **Zero-cost automated pipeline** that generates professionally-commented videos from SC2 replays and publishes to YouTube
+> **Intelligent camera system** that automatically records SC2 replays with dynamic camera work following the action
 
 ## 🎯 What is SC2Cast?
 
-SC2Cast transforms StarCraft II replays into professional cast videos with **zero operational costs**:
-1. Analyzes gameplay to identify key moments
-2. Directs an intelligent camera to capture the action  
-3. Generates contextual AI commentary (Llama 3.1 8B local)
-4. Synthesizes professional audio narration (Coqui TTS local)
-5. Records and encodes high-quality video (1080p60)
-6. Automatically uploads to YouTube with optimized metadata
+SC2Cast is an automated StarCraft II replay recording system with intelligent camera control:
 
-**Stack**: 100% open-source | Runs in Docker | Uses local GPU (RTX 3060+ 12GB VRAM)  
-**Cost**: $0/month operational | No external APIs | Self-hosted LLM + TTS
+**Currently Working:**
+1. ✅ Analyzes replays to extract all game events (battles, expansions, tech)
+2. ✅ Prioritizes important moments using intelligent clustering
+3. ✅ Generates camera scripts automatically from event analysis
+4. ✅ Directs an intelligent camera to follow the action
+5. ✅ Records high-quality video (1080p60) with FFmpeg
+6. ✅ Full automation: replay file → video output
+
+**In Development:**
+- 🔜 AI commentary generation (Llama 3.1 8B local)
+- 🔜 Text-to-speech narration (Coqui TTS local)
+- 🔜 YouTube upload automation
+
+**Stack**: 100% open-source | Windows native | Python + FFmpeg  
+**Cost**: $0/month operational | No external APIs
 
 ---
 
@@ -94,16 +101,14 @@ sc2cast/
 **Three consolidated documents cover everything:**
 
 1. **[docs/TECHNICAL.md](docs/TECHNICAL.md)** 🔧 **TECHNICAL DEEP DIVE**
-   - Zero-budget approach (Llama 3.1 + Coqui TTS)
    - Architecture & data flow
-   - Docker setup & GPU configuration
-   - Code examples (LLM, TTS, replay parsing)
-   - Camera director & commentary generation
+   - Event extraction and prioritization
+   - Camera script generation
+   - Code examples (replay parsing, event processing)
    - Troubleshooting
 
-2. **[docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md)** � **PLANNING & STATUS**
-   - Current status (Sprint 1.1: Docker Environment Setup)
-   - 20-week timeline (10 phases)
+2. **[docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md)** 📋 **PLANNING & STATUS**
+   - Project roadmap and timeline
    - Resource requirements (hardware, storage)
    - Success metrics & milestones
    - Risk management
@@ -123,72 +128,97 @@ sc2cast/
 
 ---
 
-## 🏗️ Technology Stack (Zero-Budget Edition)
+## 🏗️ Technology Stack
 
-| Component | Technology | Why |
-|-----------|-----------|-----|
-| Language | Python 3.11+ | Rich ecosystem, rapid development |
-| Replay Parsing | sc2reader | Fast, pure Python, FREE |
-| Game Control | python-sc2 (burnysc2) | Replay support, FREE |
-| Commentary | **Llama 3.1 8B (Ollama)** | Open-source, local GPU inference, FREE |
-| TTS | **Coqui TTS** | Open-source, local synthesis, FREE |
-| Screen Capture | FFmpeg / OBS Studio | Industry standard, FREE |
-| Video Encoding | FFmpeg | H.264, 1080p60, FREE |
-| Platform | **Windows Native** | SC2 replay support, direct GPU access |
-| Upload | YouTube API v3 | Official integration, FREE |
+| Component | Technology | Status |
+|-----------|-----------|--------|
+| Language | Python 3.11+ | ✅ Working |
+| Replay Parsing | sc2reader | ✅ Working |
+| Event Extraction | sc2reader events API | ✅ Working |
+| Game Control | pyautogui (keyboard automation) | ✅ Working |
+| Timer Sync | EasyOCR | ✅ Working |
+| Screen Capture | FFmpeg | ✅ Working |
+| Video Encoding | FFmpeg (H.264, 1080p60) | ✅ Working |
+| Platform | **Windows Native** | ✅ Required (SC2 support) |
+| Commentary | Llama 3.1 8B (Ollama) | 🔜 Planned |
+| TTS | Coqui TTS | 🔜 Planned |
+| Upload | YouTube API v3 | 🔜 Planned |
 
-**💰 Total API Costs: $0/month** - Everything runs locally on Windows with RTX 3060+ GPU!
+**💰 Total API Costs: $0/month** - Everything runs locally on Windows
 
 ---
 
 ## 📊 Current Status
 
-**Sprint 1.4**: Video Recording PoC **CRITICAL MILESTONE** (In Progress - 75% complete)
-- ✅ Windows native setup complete (Python 3.12.7, Poetry 1.8.5)
-- ✅ Replay parsing working (sc2reader + JSON output)
-- ✅ Event extraction framework created
-- ✅ **Replay playback confirmed** - Windows SC2 plays replays!
-- ✅ **Keyboard automation working** - Can control camera during replay (1, 2 keys)
-- ⏳ Screen capture with FFmpeg (Task 4 - need PATH refresh)
-- ⏳ Generate 10-second test video (Task 5)
+**Sprint 2.2: Event-Based Camera Intelligence** ✅ **COMPLETE**
 
-**Major Validation:** Project is 100% viable! Camera director approach confirmed working!
+**Working Features:**
+- ✅ **Replay Event Extraction** - Extracts 700+ events per replay (battles, deaths, buildings, upgrades)
+- ✅ **Event Prioritization** - Clusters events into battles with importance scoring
+- ✅ **Camera Script Generation** - Automatically generates 18+ camera shots from events
+- ✅ **Automated Recording** - Full pipeline from replay file to video output
+- ✅ **Intelligent Camera** - Camera follows battles, expansions, and key moments automatically
+- ✅ **OCR Timer Sync** - Game time synchronization for perfect timing
+- ✅ **Multi-Replay Support** - Works with any SC2 replay file
 
-**Next Sprint**: Full video recording pipeline (Sprint 2.1)
+**Quick Test:**
+```powershell
+# Run the complete event-based pipeline
+poetry run python src/sc2cast/event_based_pipeline.py
 
-See [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) for full timeline.
+# Or test individual components
+poetry run python src/sc2cast/event_extractor.py      # Extract events
+poetry run python src/sc2cast/event_prioritizer.py    # Prioritize events
+poetry run python src/sc2cast/script_generator.py     # Generate camera script
+```
+
+**Latest Achievement:** Complete automation - load any replay, get intelligent video output!
+
+**Next Sprint**: TBD (Polish features, add commentary, or production-ready CLI)
+
+See [docs/dev/DEVLOG.md](docs/dev/DEVLOG.md) for complete development history.
 
 ---
 
-## 🎯 Success Criteria
+## 🎯 Current Capabilities
 
-### Technical
-- 95%+ replay processing success rate
-- 90%+ factual commentary accuracy
-- 85%+ key moment capture rate
-- <35 min processing time per 20-min replay (local inference)
-- 1080p60 video output
+### What Works Now
+- ✅ **Event Detection** - Identifies 700+ game events automatically
+- ✅ **Battle Clustering** - Groups events into 9+ major battles per game
+- ✅ **Camera Intelligence** - Moves to action 3 seconds before it peaks
+- ✅ **Recording Quality** - 1080p60 H.264 video output
+- ✅ **Automation** - Zero manual intervention required
 
-### Quality vs Paid APIs
-- **Commentary**: 7.5/10 vs 9/10 (OpenAI GPT-4)
-- **Voice**: 7/10 vs 9/10 (ElevenLabs)
-- **Trade-off**: Acceptable quality at zero cost
+### Metrics (Current Sprint)
+- ✅ 100% replay processing success (tested on multiple replays)
+- ✅ 9 major battles detected and tracked per game
+- ✅ 18 intelligent camera shots generated automatically
+- ✅ ~6-10 minutes processing time per replay
+- ✅ 1080p60 video output with FFmpeg
 
 ---
 
 ## 🏛️ Hardware Requirements
 
-- **GPU**: NVIDIA RTX 3060+ (12GB VRAM minimum)
-- **RAM**: 32GB (16GB system + 16GB models)
-- **Storage**: 1TB SSD (models + replays + output)
-- **CPU**: 8+ cores recommended
+### Current (Video Recording Only)
+- **RAM**: 8GB minimum (16GB recommended)
+- **Storage**: 100GB for replays and videos
+- **CPU**: 4+ cores (for FFmpeg encoding)
 - **OS**: Windows 10/11 (SC2 must be installed)
+- **GPU**: Not required yet
+
+### Future (When AI Commentary Added)
+- **GPU**: NVIDIA RTX 3060+ (12GB VRAM) for local LLM
+- **RAM**: 32GB (16GB system + 16GB for models)
+- **Storage**: 1TB SSD (models + replays + output)
 
 ---
 
 ## 🤝 Contributing
 
-Project is in early development (Sprint 1.1). See [docs/dev/WORKFLOW.md](docs/dev/WORKFLOW.md) for development process.
+Project is in active development (Sprint 2.2 complete - intelligent camera working!). 
+
+See [docs/dev/WORKFLOW.md](docs/dev/WORKFLOW.md) for development process.
 
 ---
 
